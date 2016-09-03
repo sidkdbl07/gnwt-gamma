@@ -4,10 +4,93 @@
 </template>
 
 <template name="header">
-  <h2>You are in <i>{{routeName}}</i> route</h2>
-  <ul>
-    <li><a href="{{pathFor 'home'}}">Home</a></li>
+  <nav>
+    <div class="nav-wrapper blue">
+
+    </div>
+  </nav>
+  {{#if currentUser}}
+    {{>navigationButton}}
+  {{/if}}
+</template>
+
+<template name="navigationButton">
+  <div id="menu-button-container">
+    <a id="menu-button" data-activates='menu-slide' class="button-collapse btn-floating btn-large light-green darken-1"><i class="material-icons">menu</i></a>
+  </div>
+  <ul id='menu-slide' class="side-nav leftside-navigation">
+    <li><a href="{{pathFor 'home'}}" ><i class="material-icons">home</i>Home</a></li>
+    <li style="padding-left: 15px;">
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <a class="collapsible-header" ><i class="material-icons">store</i>Buildings<i class="material-icons right">arrow_drop_down</i></a>
+          <div class="collapsible-body">
+            <ul>
+              <li><a href="{{pathFor 'buildings'}}">List</a></li>
+              <li><a href="{{pathFor 'buildingsMap'}}">Map</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </li>
+    {{#if isInRole 'admin' 'default_group'}}
+    <li style="padding-left: 15px;">
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <a class="collapsible-header" ><i class="material-icons">settings</i>Settings<i class="material-icons right">arrow_drop_down</i></a>
+          <div class="collapsible-body">
+            <ul>
+              <li><a href="{{pathFor 'regions'}}" >Regions</a></li>
+              <li><a href="{{pathFor 'users'}}" >Users</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </li>
+    {{/if}}
+    <li><a href="{{pathFor 'account'}}" ><i class="material-icons">person</i>My Account</a></li>
+    <li><a href="#!" id="submit_logout" class="red-text"><i class="material-icons">exit_to_app</i>Logout</a></li>
   </ul>
+</template>
+
+<template name="default">
+  <br/>
+  <br/>
+  <div class="row">
+    <div class="col s6">
+      <p>Welcome, this is the default page.</p>
+      <p>This is some dummy text to hold the place until Charlie gets his butt in gear.</p>
+    </div>
+    <div class="col s6">
+      {{#if currentUser}}
+      <div class="card grey lighten-3">
+        <div class="card-content">
+        {{>loggedIn}}
+        </div>
+      </div>
+      {{else}}
+        {{>login}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="loading">
+  <div class="valign-wrapper" style="height: 100%; width: 100%; margin: auto;">
+    <div class="valign" style="margin: auto;">
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="buildingsList">
@@ -30,8 +113,4 @@
   {{else}}
     {{> loading}}
   {{/if}}
-</template>
-
-<template name="loading">
-  Boo ya
 </template>

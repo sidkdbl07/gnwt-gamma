@@ -3,28 +3,77 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
-Template.header.helpers({
-  routeName: function () {
-    return FlowRouter.getRouteName();
-  }
-});
+if (Meteor.isClient) {
+  Template.header.helpers({
+    routeName: function () {
+      return FlowRouter.getRouteName();
+    }
+  });
 
-Template.buildingsList.onCreated(function() {
-  DocHead.setTitle("List of Buildings")
-});
+  Template.navigationButton.events({
+    'click #submit_logout': function (event) {
+      event.preventDefault();
+      Meteor.logout();
+      $.publish('toast', ["You have been logged out", "Logout Successful!", "success"]);
+    }
+  });
 
-Template.buildingsList.helpers({
-  getBuildings: function () {
-    return Buildings.find({}, { sort: { createdAt: -1 }});
-  }
-});
+  Template.navigationButton.onRendered(function() {
+    $('.collapsible').collapsible({accordion: true});
+    $("#menu-button").sideNav({
+      menuWidth: 300,
+      edge: 'left'
+    });
+  });
 
-Template.singleBuilding.onCreated(function() {
-  DocHead.setTitle("A Building");
-});
+  Template.buildingsList.onCreated(function() {
+    DocHead.setTitle("List of Buildings")
+  });
 
-Template.singleBuilding.helpers({
-  getBuilding: function () {
-    return Buildings.findOne();
-  }
-});
+  Template.buildingsList.helpers({
+    getBuildings: function () {
+      return Buildings.find({}, { sort: { createdAt: -1 }});
+    }
+  });
+
+  Template.singleBuilding.onCreated(function() {
+    DocHead.setTitle("A Building");
+  });
+
+  Template.singleBuilding.helpers({
+    getBuilding: function () {
+      return Buildings.findOne();
+    }
+  });
+
+  // Publication / Subscription
+  (function($) {
+    var o = $({});
+    $.subscribe = function() {
+      o.on.apply(o, arguments);
+    };
+    $.unsubscribe = function() {
+      o.off.apply(o, arguments);
+    };
+    $.publish = function() {
+      o.trigger.apply(o, arguments);
+    };
+  }(jQuery));
+
+  $.subscribe("toast", function(e, message, title, type, loading) {
+    var color = "teal";
+    if(type == "error")
+      color = "red";
+    if(type == "warning")
+      color = "amber";
+    if(type == "success")
+      color = "green"
+    var m = "<p>"+title+"<br/>"+message+"</p>";
+    if(loading) {
+      mt = '<div class="preloader-wrapper small active"><div class="spinner-layer"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div><div class="btn-flat white black-text">'+m+'</div>';
+      Materialize.toast($(mt), 'stay-on', 'white');
+    } else {
+      Materialize.toast($(m), 3000, color);
+    }
+  });
+}

@@ -21,3 +21,14 @@ meteorhacks:flow-layout
 meteorhacks:flow-router
 arillo:flow-router-helpers
 kadira:dochead
+accounts-password
+alanning:roles
+ground:db
+reywood:publish-composite
+meteorhacks:unblock
+check
+materialize:materialize@=0.97.6
+zodiase:material-design-icons-fonts
+session
+aldeed:tabular
+dburles:collection-helpers

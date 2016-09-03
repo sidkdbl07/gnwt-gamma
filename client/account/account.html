@@ -1,0 +1,36 @@
+<template name="account">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <span class="breadcrumb grey-text text-darken-3">My Account</span>
+      </div>
+    </div>
+  </nav>
+  <div class="row">
+    <div class="col s6">
+      {{>loggedIn}}
+    </div>
+    <div class="col s6">
+      {{>accountChangePassword}}
+    </div>
+  </div>
+</template>
+
+<template name="accountChangePassword">
+  <div class="card grey lighten-3">
+    <div class="card-content" style="padding: 10px;">
+      <span class="card-title">Change Your Password</span>
+      <form id="accountPasswordForm" novalidate="novalidate">
+      <div class="row" style="height: 80px;">
+        <div class="input-field col s12">
+          <input type="password" id="edit_account_password" name="edit_account_password" class="validate" required="" aria-required="true" />
+          <label for="edit_account_password" >New Password</label>
+        </div>
+      </div>
+      </form>
+    </div>
+    <div class="card-action">
+      <a href="#" id="submit_account_edit_pass" class="light-green-text">Save</a>
+    </div>
+  </div>
+</template>

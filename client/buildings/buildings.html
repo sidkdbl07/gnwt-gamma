@@ -1,0 +1,37 @@
+<template name="buildings">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <span class="breadcrumb grey-text text-darken-3">Buildings</span>
+      </div>
+    </div>
+  </nav>
+  <div style="position: absolute; top: 78px; right: 100px;">
+    {{#if isInRole 'admin' 'default_group'}}
+    <a href="{{pathFor 'buildingAdd'}}" class="btn waves-effect waves-light grey lighten-2 grey-text text-darken-3 tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Add a Building"><i class="material-icons">add</i></a>
+    {{/if}}
+  </div>
+  {{> tabular table=TabularTables.Buildings class="table table-striped"}}
+
+  {{>deleteBuildingModal}}
+</template>
+
+<template name="buildingTableButtons">
+  <a href="#!" class="building-edit btn-floating light-green"><i class="material-icons">create</i></a>
+  <a href="#!" class="building-delete btn-floating red"><i class="material-icons">delete</i></a>
+</template>
+
+<template name="deleteBuildingModal">
+  <input type="hidden" id="delete_building_id" value="" />
+  <div id="deleteBuildingModal" class="modal">
+    <div class="modal-content">
+      <h4>Warning</h4>
+      <p>Deleting a building cannot be undone!</p>
+      <p>All records associated with this building (including inspections) will be removed.</p>
+    </div>
+    <div class="modal-footer">
+      <a id="go-ahead-and-delete-building" href="#!" class="btn modal-action modal-close waves-effect red">Delete Building</a>
+      <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
+</template>

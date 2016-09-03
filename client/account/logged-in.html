@@ -1,0 +1,26 @@
+<template name="loggedIn">
+  <p>You are logged in as {{currentUser.profile.fullname}}.</p>
+
+  {{#if isInRole 'admin' 'default_group'}}
+  <p>As an Administrator, you can perform the following functions:
+  <ul>
+    <li><a href="{{pathFor 'users'}}" class="blue-text" >Manage Users</a></li>
+    <li><a href="{{pathFor 'buildings'}}" class="blue-text" >Manage Buildings</a></li>
+    <li><a href="{{pathFor 'regions'}}" class="blue-text" >Manage Regions</a></li>
+  </ul></p>
+  {{/if}}
+
+  {{#if isInRole 'manager' 'default_group'}}
+  <p>As a Manager, you can perform the following functions:
+  <ul>
+    <li><a href="{{pathFor 'buildings'}}" class="blue-text">Manage Buildings</a></li>
+  </ul></p>
+  {{/if}}
+
+  {{#if isInRole 'field' 'default_group'}}
+  <p>As a Field User, you can perform the following functions:
+  <ul>
+    <li><a href="{{pathFor 'buildings'}}" class="blue-text" >View Buildings</a></li>
+  </ul></p>
+  {{/if}}
+</template>
