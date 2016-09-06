@@ -13,7 +13,12 @@ if (Meteor.isClient) {
 
   Template.buildingTableButtons.events({
     'click .building-edit': function(e) {
-      console.log(this._id);
+      var self = this;
+      console.log(self.item._id);
+    },
+    'click .building-view': function(e) {
+      var self = this;
+      console.log(self.item._id);
     }
   });
 }

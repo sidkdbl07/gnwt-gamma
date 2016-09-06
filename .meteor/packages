@@ -30,5 +30,5 @@ check
 materialize:materialize@=0.97.6
 zodiase:material-design-icons-fonts
 session
-aldeed:tabular
 dburles:collection-helpers
+aldeed:tabular

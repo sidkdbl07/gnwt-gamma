@@ -13,11 +13,14 @@ TabularTables.Buildings = new Tabular.Table({
   scrollCollapse: true,
   bFilter: false,
   order: [[0, "asc"]],
+  aoColumnDefs: [ { "sClass": "nowrap", "aTargets": [ 2 ] } ],
+  extraFields: ['region_id', '_id'],
   columns: [
-    {data: "name", title: "Building Name"},
-    {data: 'region_name()', title: "Region"},
+    {data: "name", title: "Building Name", width: '40%'},
+    {data: 'region_name()', title: "Region", width: '40%'},
     {
-      data: 'buttons', title: "",
+      title: "",
+      width: '20%',
       tmpl: Meteor.isClient && Template.buildingTableButtons,
       tmplContext: function(rowData) {
         return {
