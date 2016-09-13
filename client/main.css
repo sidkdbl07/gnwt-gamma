@@ -24,6 +24,11 @@ html, body {
   padding: 5px;
 }
 
+.side-nav i {
+  margin-right: 1rem;
+  vertical-align: middle !important;
+}
+
 .breadcrumb::before {
   color: #999;
 }

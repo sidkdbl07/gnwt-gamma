@@ -14,16 +14,17 @@ if (Meteor.isClient) {
     'click #submit_logout': function (event) {
       event.preventDefault();
       Meteor.logout();
+      FlowRouter.go('/');
       $.publish('toast', ["You have been logged out", "Logout Successful!", "success"]);
     }
   });
 
   Template.navigationButton.onRendered(function() {
-    $('.collapsible').collapsible({accordion: true});
     $("#menu-button").sideNav({
       menuWidth: 300,
       edge: 'left'
     });
+    $('.collapsible').collapsible({accordion: true});
   });
 
   Template.buildingsList.onCreated(function() {

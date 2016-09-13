@@ -17,9 +17,9 @@
 </template>
 
 <template name="buildingTableButtons">
-  <a href="#!" class="building-view btn-floating light-green"><i class="material-icons">search</i></a>
-  <a href="#!" class="building-edit btn-floating light-green"><i class="material-icons">create</i></a>
-  <a href="#!" class="building-delete btn-floating red"><i class="material-icons">delete</i></a>
+  <a href="{{pathFor 'building/:id' id=item._id}}" class="building-view btn-floating light-green"><i class="material-icons">search</i></a>
+  <a href="{{pathFor 'building/edit/:id' id=item._id}}" class="building-edit btn-floating light-green"><i class="material-icons">create</i></a>
+  <a href="#deleteBuildingModal" class="building-delete modal-triger btn-floating red"><i class="material-icons">delete</i></a>
 </template>
 
 <template name="deleteBuildingModal">
