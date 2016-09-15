@@ -18,10 +18,10 @@ TabularTables.Buildings = new Tabular.Table({
   extraFields: ['region_id', '_id'],
   columns: [
     {data: "name", title: "Building Name", width: '40%'},
-    {data: 'region_name()', title: "Region", width: '40%'},
+    {data: 'region_name()', title: "Region", width: '20%'},
     {
       title: "",
-      width: '20%',
+      width: '40%',
       tmpl: Meteor.isClient && Template.buildingTableButtons,
       tmplContext: function(rowData) {
         return {
