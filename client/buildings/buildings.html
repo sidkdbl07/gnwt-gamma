@@ -8,7 +8,7 @@
   </nav>
   <div style="position: absolute; top: 78px; right: 100px;">
     {{#if isInRole 'admin' 'default_group'}}
-    <a href="{{pathFor 'buildingAdd'}}" class="btn waves-effect waves-light grey lighten-2 grey-text text-darken-3 tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Add a Building"><i class="material-icons">add</i></a>
+    <a href="{{pathFor 'buildingAdd'}}" class="btn waves-effect waves-light light-green">New</a>
     {{/if}}
   </div>
   {{> tabular table=TabularTables.Buildings class="table table-striped"}}
@@ -18,8 +18,10 @@
 
 <template name="buildingTableButtons">
   <a href="{{pathFor 'building/:id' id=item._id}}" class="building-view btn-floating light-green"><i class="material-icons">search</i></a>
-  <a href="{{pathFor 'building/edit/:id' id=item._id}}" class="building-edit btn-floating light-green"><i class="material-icons">create</i></a>
-  <a href="#deleteBuildingModal" class="building-delete modal-triger btn-floating red"><i class="material-icons">delete</i></a>
+  {{#if isInRole 'admin' 'default_group'}}
+  <a href="{{pathFor 'building/edit/:id' id=item._id}}" class="building-edit btn-floating white"><i class="material-icons" style="color: #8bc34a !important;">create</i></a>
+  <a href="#deleteBuildingModal" class="building-delete modal-triger btn-floating white"><i class="material-icons" style="color: #f44336 !important;">delete</i></a>
+  {{/if}}
 </template>
 
 <template name="deleteBuildingModal">

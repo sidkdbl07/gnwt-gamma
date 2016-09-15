@@ -1,0 +1,79 @@
+<template name="regionEdit">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <a href="{{pathFor '/regions'}}" class="breadcrumb grey-text text-darken-3">Regions</a>
+        <span class="breadcrumb grey-text text-darken-3">{{getRegion.name}}</span>
+      </div>
+    </div>
+  </nav>
+  {{#if isSubReady 'region'}}
+    {{#with getRegion}}
+    <div style="position: absolute; top: 78px; right: 50%;">
+      {{#if isInRole 'admin' 'default_group'}}
+      <a href="#" id="save_a_region" class="btn waves-effect waves-light light-green tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Save this region">Save</a>
+      {{/if}}
+    </div>
+    <div class="row content">
+      <div class="input-field col s5">
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="hidden" id="edit_region_id" name="edit_region_id" value="{{_id}}"/>
+            <input type="text" id="edit_region_name" name="edit_region_name" class="validate" value="{{name}}"/>
+            <label for="edit_region_name" class="active" >Name of Region</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select id="edit_region_wind_direction" name="edit_region_wind_direction" >
+              <option value="N" {{selectedIf 'N'}}>N</option>
+              <option value="NW" {{selectedIf 'NW'}}>NW</option>
+              <option value="W" {{selectedIf 'W'}}>W</option>
+              <option value="SW" {{selectedIf 'SW'}}>SW</option>
+              <option value="S" {{selectedIf 'S'}}>S</option>
+              <option value="SE" {{selectedIf 'SE'}}>SE</option>
+              <option value="E" {{selectedIf 'E'}}>E</option>
+              <option value="NE" {{selectedIf 'NE'}}>NE</option>
+            </select>
+            <label for="edit_region_wind_direction" class="active">Direction of Prevailing Wind</label>
+          </div>
+        </div>
+        <div class="row card grey lighten-3">
+          <div class="card-content">
+            <span class="card-title"><i class="material-icons right">place</i>Location of Region</span>
+            <br/>
+            We project the location of the regions on the map when a user is zoomed out. Enter the latitude and longitude of the center of the region.
+            <div class="input-field col s12">
+              <input type="text" id="edit_region_latitude" name="edit_region_latitude" class="validate" value="{{location.coordinates.[1]}}"/>
+              <label for="edit_region_latitide" class="active">Latitude</label>
+            </div>
+            <div class="input-field col s12">
+              <input type="text" id="edit_region_longitude" name="edit_region_longitude" class="validate" value="{{location.coordinates.[0]}}"/>
+              <label for="edit_region_longitide" class="active">Longitude</label>
+              <br/>
+              <span style="color: red;">Remember</span>: longitude in the western hemisphere is expressed as a negative number (e.g. -121.234).<br/><br/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 offset-s1">
+        <div class="card grey lighten-3">
+          <div class="card-content">
+            <span class="card-title">Modifying a Region</span>
+            <br/>
+            <p>A few things to keep in mind while entering a new region:<br/>
+              - This list populates the 'region' field for a building.<br/>
+              - Properties of the region can be used for reporting.<br/><br/>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col s5 offset-s1 collection">
+        <a href="{{pathFor 'regionSnowLoads'}}" class="collection-item blue-text"><i class="material-icons right">grain</i>Snow Load Factors</a>
+      </div>
+    </div>
+    {{/with}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>

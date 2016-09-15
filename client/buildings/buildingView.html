@@ -1,0 +1,9 @@
+<template name="buildingView">
+  {{#if isSubReady 'building'}}
+    {{#with getBuilding}}
+    <h2>{{name}}</h2>View
+    {{/with}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>

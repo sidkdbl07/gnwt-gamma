@@ -37,6 +37,10 @@ table.dataTable thead .sorting::after, table.dataTable thead .sorting_asc::after
     font-family: "Roboto";
 }
 
+table.dataTable thead .sorting::after {
+  content: '◊';
+}
+
 table.dataTable thead .sorting_asc::after {
   content: '▲';
 }

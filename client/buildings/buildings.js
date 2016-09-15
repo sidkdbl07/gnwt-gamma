@@ -1,4 +1,8 @@
 if (Meteor.isClient) {
+  Template.buildings.onCreated(function() {
+    DocHead.setTitle("Buildings | GNWT PWS");
+  });
+
   Template.buildings.onRendered(function() {
     $(".tooltipped").tooltip({delay: 50});
     //$(window).bind('resize', function () {

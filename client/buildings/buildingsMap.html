@@ -1,0 +1,14 @@
+<template name="buildingsMap">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <span class="breadcrumb grey-text text-darken-3">Buildings</span>
+      </div>
+    </div>
+  </nav>
+  <div style="position: absolute; top: 78px; right: 100px;">
+    <a id="map_zoom_out" class="btn waves-effect waves-light grey lighten-2 grey-text text-darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Zoom Out"><i class="material-icons">remove</i></a>
+    <a id="map_zoom_in" class="btn waves-effect waves-light grey lighten-2 grey-text text-darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Zoom In"><i class="material-icons">add</i></a>
+  </div>
+  <div id='map'></div>
+</template>

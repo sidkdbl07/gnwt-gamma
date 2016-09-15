@@ -1,0 +1,70 @@
+<template name="regionAdd">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <a href="{{pathFor '/regions'}}" class="breadcrumb grey-text text-darken-3">Regions</a>
+        <span class="breadcrumb grey-text text-darken-3">Add a Region</span>
+      </div>
+    </div>
+  </nav>
+  <div style="position: absolute; top: 78px; right: 50%;">
+    <a class="btn waves-effect waves-light light-green" id="save_new_region">Save</a>
+  </div>
+  <form id="form_region_new">
+    <div class="row">
+      <div class="input-field col s5">
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="create_region_name" name="create_region_name" class="validate"/>
+            <label for="create_region_name" >Name of Region</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select id="create_region_wind_direction" name="create_region_wind_direction" >
+              <option value="N">N</option>
+              <option value="NW">NW</option>
+              <option value="W">W</option>
+              <option value="SW">SW</option>
+              <option value="S">S</option>
+              <option value="SE">SE</option>
+              <option value="E">E</option>
+              <option value="NE">NE</option>
+            </select>
+            <label for="create_region_wind_direction">Direction of Prevailing Wind</label>
+          </div>
+        </div>
+        <div class="row card grey lighten-3">
+          <div class="card-content">
+            <span class="card-title"><i class="material-icons right">place</i>Location of Region</span>
+            <br/>
+            We project the location of the regions on the map when a user is zoomed out. Enter the latitude and longitude of the center of the region.
+            <div class="input-field col s12">
+              <input type="text" id="create_region_latitude" name="create_region_latitude" class="validate"/>
+              <label for="create_region_latitide" >Latitude</label>
+            </div>
+            <div class="input-field col s12">
+              <input type="text" id="create_region_longitude" name="create_region_longitude" class="validate"/>
+              <label for="create_region_longitide" >Longitude</label>
+              <br/>
+              <span style="color: red;">Remember</span>: longitude in the western hemisphere is expressed as a negative number (e.g. -121.234).<br/><br/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 offset-s1">
+        <div class="card grey lighten-3">
+          <div class="card-content">
+            <span class="card-title">Creating a New Region</span>
+            <br/>
+            <p>A few things to keep in mind while entering a new region:<br/>
+              - The list of regions populates the 'region' field for a building.<br/>
+              - The regions are also depicted on the buildings map.<br/>
+              - Wind direction is reported by the direction from which it originates.<br/><br/>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</template>

@@ -12,6 +12,15 @@ Meteor.publish("buildingsForList", function() {
   return Buildings.find({}, {fields: {_id:1}});
 });
 
+Meteor.publish("directory", function() {
+  var my_groups = Roles.getGroupsForUser(this.userId);
+  if(this.userId && Roles.userIsInRole(this.userId, ['admin'], my_groups)) {
+    return Meteor.users.find();
+  } else {
+    return [];
+  }
+});
+
 Meteor.publishComposite("tabularBuildings", function(tableName, ids, fields) {
   check(tableName, String);
   check(ids, Array);
@@ -35,12 +44,28 @@ Meteor.publishComposite("tabularBuildings", function(tableName, ids, fields) {
   }
 });
 
-Meteor.publish("directory", function() {
-  var my_groups = Roles.getGroupsForUser(this.userId);
-  if(this.userId && Roles.userIsInRole(this.userId, ['admin'], my_groups)) {
-    return Meteor.users.find();
+Meteor.publish("tabularRegions", function(tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  return Regions.find({_id: {$in: ids}}, {fields: fields});
+});
+
+Meteor.publish("tabularUsers", function(tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  if(Roles.userIsInRole(this.userId, ['admin'], Roles.GLOBAL_GROUP)) {
+    return Meteor.users.find({_id: {$in: ids}}, {fields: fields});
   } else {
-    return [];
+    var my_group = Roles.getGroupsForUser(this.userId)[0];
+    var query = {};
+    //query['roles.'+my_group] = {$exists: true};
+    query['_id'] = {$in: ids};
+    console.log(query);
+    return Meteor.users.find(query, {fields: fields});
   }
 });
 
@@ -48,8 +73,12 @@ Meteor.publish('regions', function() {
   return Regions.find({}, {fields: {name: 1}});
 });
 
-Meteor.publish('region', function(id) {
+Meteor.publish('singleRegion', function(id) {
   return Regions.find({_id: id});
+});
+
+Meteor.publish('singleUser', function (userId) {
+  return Meteor.users.find({ _id: userId }, {fields: {emails:1, profile:1, roles:1}});
 });
 
 Meteor.publish('usersInMyGroup', function() {

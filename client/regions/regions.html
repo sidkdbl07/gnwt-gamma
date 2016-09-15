@@ -1,0 +1,37 @@
+<template name="regions">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <span class="breadcrumb grey-text text-darken-3">Regions</span>
+      </div>
+    </div>
+  </nav>
+  <div style="position: absolute; top: 78px; right: 100px;">
+    {{#if isInRole 'admin' 'default_group'}}
+    <a href="{{pathFor '/region/add'}}" class="btn waves-effect waves-light light-green">New</a>
+    {{/if}}
+  </div>
+  {{> tabular table=TabularTables.Regions class="table table-striped"}}
+
+  {{>deleteRegionModal}}
+</template>
+
+<template name="regionTableButtons">
+  <a href="{{pathFor '/region/edit/:id' id=item._id}}" class="region-edit btn-floating light-green"><i class="material-icons">create</i></a>
+  <a href="#deleteRegionModal" class="region-delete modal-triger btn-floating white red-text"><i class="material-icons" style="color: #f44336 !important;">delete</i></a>
+</template>
+
+<template name="deleteRegionModal">
+  <input type="hidden" id="delete_region_id" value="" />
+  <div id="deleteRegionModal" class="modal">
+    <div class="modal-content">
+      <h4>Warning</h4>
+      <p>Deleting a region cannot be undone!</p>
+      <p>All records associated with this region (including buildings and inspections) will be removed.</p>
+    </div>
+    <div class="modal-footer">
+      <a id="go-ahead-and-delete-region" href="#!" class="btn modal-action modal-close waves-effect red">Delete Region</a>
+      <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
+</template>

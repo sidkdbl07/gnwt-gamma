@@ -1,0 +1,17 @@
+#map {
+  position: absolute;
+  top: 128px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-div-icon {
+  border-radius: 50%;
+  border: none;
+  opacity: .8;
+}
+
+.leaflet-div-icon.building {
+  background: #4caf50;
+}

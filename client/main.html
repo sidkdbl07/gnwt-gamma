@@ -19,7 +19,7 @@
     <a id="menu-button" data-activates='menu-slide' class="button-collapse btn-floating btn-large light-green darken-1"><i class="material-icons">menu</i></a>
   </div>
   <ul id='menu-slide' class="side-nav">
-    <li><a href="{{pathFor 'home'}}" ><i class="material-icons">home</i>Home</a></li>
+    <li><a href="{{pathFor '/'}}" ><i class="material-icons">home</i>Home</a></li>
     <li class="nopadding">
       <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
         <li>
@@ -27,7 +27,7 @@
           <div class="collapsible-body">
             <ul>
               <li><a href="{{pathFor 'buildings'}}">List</a></li>
-              <li><a href="{{pathFor 'buildingsMap'}}">Map</a></li>
+              <li><a href="{{pathFor 'buildings/map'}}">Map</a></li>
             </ul>
           </div>
         </li>
@@ -36,8 +36,8 @@
           <a class="collapsible-header" ><i class="material-icons">settings</i>Settings<i class="material-icons right">arrow_drop_down</i></a>
           <div class="collapsible-body">
             <ul>
-              <li><a href="{{pathFor 'regions'}}" >Regions</a></li>
-              <li><a href="{{pathFor 'users'}}" >Users</a></li>
+              <li><a href="{{pathFor '/regions'}}" >Regions</a></li>
+              <li><a href="{{pathFor '/users'}}" >Users</a></li>
             </ul>
           </div>
         </li>
@@ -87,26 +87,4 @@
       </div>
     </div>
   </div>
-</template>
-
-<template name="buildingsList">
-  {{#if isSubReady 'buildings'}}
-    {{#each getBuildings}}
-      <h2>{{name}}</h2>
-      <a href="{{pathFor 'building' buildingId=_id}}">Link to building</a>
-      <hr>
-    {{/each}}
-  {{else}}
-    {{> loading}}
-  {{/if}}
-</template>
-
-<template name="singleBuilding">
-  {{#if isSubReady 'building'}}
-    {{#with getBuilding}}
-    <h2>{{name}}</h2>
-    {{/with}}
-  {{else}}
-    {{> loading}}
-  {{/if}}
 </template>

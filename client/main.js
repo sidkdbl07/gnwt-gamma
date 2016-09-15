@@ -27,26 +27,6 @@ if (Meteor.isClient) {
     $('.collapsible').collapsible({accordion: true});
   });
 
-  Template.buildingsList.onCreated(function() {
-    DocHead.setTitle("List of Buildings")
-  });
-
-  Template.buildingsList.helpers({
-    getBuildings: function () {
-      return Buildings.find({}, { sort: { createdAt: -1 }});
-    }
-  });
-
-  Template.singleBuilding.onCreated(function() {
-    DocHead.setTitle("A Building");
-  });
-
-  Template.singleBuilding.helpers({
-    getBuilding: function () {
-      return Buildings.findOne();
-    }
-  });
-
   // Publication / Subscription
   (function($) {
     var o = $({});

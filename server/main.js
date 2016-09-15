@@ -13,14 +13,14 @@ Meteor.startup(() => {
       });
       Roles.addUsersToRoles(id, pRoles, 'default_group');
     },
-    editAUser: function(pID, pFullname, pEmail, pRoles) {
+    updateUser: function(pID, pFullname, pEmail, pRoles) {
       Meteor.users.update({_id: pID}, {$set: {
         'email': pEmail,
         'profile.fullname': pFullname
       }});
       Roles.setUserRoles(pID, pRoles[0], 'default_group');
     },
-    removeAUser: function(pID) {
+    removeUser: function(pID) {
       var loggedInUser = Meteor.user()
 
       if (!loggedInUser ||
