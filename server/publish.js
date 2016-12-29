@@ -64,7 +64,7 @@ Meteor.publish("tabularUsers", function(tableName, ids, fields) {
     var query = {};
     //query['roles.'+my_group] = {$exists: true};
     query['_id'] = {$in: ids};
-    console.log(query);
+    //console.log(query);
     return Meteor.users.find(query, {fields: fields});
   }
 });
@@ -74,7 +74,29 @@ Meteor.publish('regions', function() {
 });
 
 Meteor.publish('singleRegion', function(id) {
-  return Regions.find({_id: id});
+  var myRegion = Regions.find({_id: id});
+  return myRegion;
+});
+
+Meteor.publish('regionSnowloadMetrics', function(id) {
+  ReactiveAggregate(this, Regions, [{
+    $match: {_id: this.id}
+  },
+  {
+    $unwind: '$snow_load_factors.levels',
+  },
+  {
+    $group: {
+      _id: {
+        name: '$name',
+        roof: '$snow_load_factors.levels.roof',
+        pitch: '$snow_load_factors.levels.pitch'
+      },
+      min: { $min: '$snow_load_factors.levels.factor' },
+      max: { $max: '$snow_load_factors.levels.factor' },
+      avg: { $avg: '$snow_load_factors.levels.factor' },
+    }
+  }], {clientCollection: "SnowLoadMetrics"});
 });
 
 Meteor.publish('singleUser', function (userId) {
