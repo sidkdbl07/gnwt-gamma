@@ -80,8 +80,8 @@ if (Meteor.isClient) {
   Template.deleteSnowloadFactorModal.events({
     'click #go-ahead-and-delete-factor': function(e) {
       var self = $(this); // current region
-      $.publish('toast', [self[0]._id+" "+Session.get('roof_type')+" "+Session.get('importance')+" "+Session.get('year'),"Factor","info",0]);
-      //Meteor.call('removeRegionalSnowloadFactor', self[0]._id, Session.get('roof_type'), Session.get('importance'), Session.get('year'));
+      //$.publish('toast', [self[0]._id+" "+Session.get('roof_type')+" "+Session.get('importance')+" "+Session.get('year'),"Factor","info",0]);
+      Meteor.call('removeRegionalSnowloadFactors', self[0]._id, Session.get('roof_type'), Session.get('importance'), Session.get('year'));
       $.publish('toast', ["Factor deleted", "Success", "success", 0]);
     }
   });
