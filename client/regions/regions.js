@@ -31,10 +31,6 @@ if (Meteor.isClient) {
   Template.deleteRegionModal.events({
     'click #go-ahead-and-delete-region': function(event) {
       var regionID = $("#delete_region_id").val();
-      if(regionID == "") {
-        $.publish('toast', ["Could not determine which region to remove", "Error", "error", 0]);
-        return;
-      }
       Meteor.call('removeRegion', regionID);
       $.publish('toast', ["Region deleted", "Success", "success", 0]);
     }

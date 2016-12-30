@@ -78,25 +78,8 @@ Meteor.publish('singleRegion', function(id) {
   return myRegion;
 });
 
-Meteor.publish('regionSnowloadMetrics', function(id) {
-  ReactiveAggregate(this, Regions, [{
-    $match: {_id: this.id}
-  },
-  {
-    $unwind: '$snow_load_factors.levels',
-  },
-  {
-    $group: {
-      _id: {
-        name: '$name',
-        roof: '$snow_load_factors.levels.roof',
-        pitch: '$snow_load_factors.levels.pitch'
-      },
-      min: { $min: '$snow_load_factors.levels.factor' },
-      max: { $max: '$snow_load_factors.levels.factor' },
-      avg: { $avg: '$snow_load_factors.levels.factor' },
-    }
-  }], {clientCollection: "SnowLoadMetrics"});
+Meteor.publish('regionSnowloadTable', function(id) {
+
 });
 
 Meteor.publish('singleUser', function (userId) {

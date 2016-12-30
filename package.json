@@ -5,7 +5,7 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "leaflet": "^1.0.0-rc.1",
+    "leaflet": "^1.0.2",
     "leaflet-bing-layer": "^3.1.0",
     "meteor-node-stubs": "~0.2.0"
   }

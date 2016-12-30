@@ -10,39 +10,59 @@
   </nav>
   {{#if isSubReady 'region'}}
     {{#with getRegion}}
-    <div style="position: absolute; top: 78px; right: 50%;">
+    <div style="position: absolute; top: 78px; right: 10px;; width: 50%;">
       {{#if isInRole 'admin' 'default_group'}}
-      <a href="#" id="add_snowload" class="btn waves-effect waves-light light-green tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Add Snowload"><i class="material-icons">add</i></a>
+      <a href="#" id="add_snowload" class="btn waves-effect waves-light light-green">New</a>
       {{/if}}
+      <span class="grey-text" style="margin-left: 25px;">Roof type:</span>
+      <a href="#" id="btn_roof_type" class="dropdown-button btn waves-effect waves-light light-green" data-activates="roof_type" >Slippery</a>
+      <ul id='roof_type' class="dropdown-content">
+        <li><a id="btn_roof_standard" href="#" class="green-text">Standard</a></li>
+        <li><a id="btn_roof_slippery" href="#" class="green-text">Slippery</a></li>
+      </ul>
     </div>
     <div class="content">
-      <table>
+      <table style="width: 100%;">
         <thead>
           <tr>
-            <th>Importance</th>
-            <th>Year</th>
-            <th>0</th>
-            <th>5</th>
-            <th>10</th>
-            <th>15</th>
-            <th>20</th>
-            <th>25</th>
-            <th>30</th>
-            <th>35</th>
-            <th>40</th>
-            <th>45</th>
-            <th>50</th>
-            <th>55</th>
-            <th>60</th>
-            <th>65</th>
-            <th>70</th>
-            <th>75</th>
-            <th>80</th>
-            <th>85</th>
-            <th>90</th>
+            <th style="width: 8%; text-align: center">Importance</th>
+            <th style="width: 4%; text-align: center;">Year</th>
+            <th style="width: 4%; text-align: center">0</th>
+            <th style="width: 4%; text-align: center">5</th>
+            <th style="width: 4%; text-align: center">10</th>
+            <th style="width: 4%; text-align: center">15</th>
+            <th style="width: 4%; text-align: center">20</th>
+            <th style="width: 4%; text-align: center">25</th>
+            <th style="width: 4%; text-align: center">30</th>
+            <th style="width: 4%; text-align: center">35</th>
+            <th style="width: 4%; text-align: center">40</th>
+            <th style="width: 4%; text-align: center">45</th>
+            <th style="width: 4%; text-align: center">50</th>
+            <th style="width: 4%; text-align: center">55</th>
+            <th style="width: 4%; text-align: center">60</th>
+            <th style="width: 4%; text-align: center">65</th>
+            <th style="width: 4%; text-align: center">70</th>
+            <th style="width: 4%; text-align: center">75</th>
+            <th style="width: 4%; text-align: center">80</th>
+            <th style="width: 4%; text-align: center">85</th>
+            <th style="width: 4%; text-align: center">90</th>
+            <th style="width: 8%;">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
+            {{#each codes}}
+            <tr>
+              <td style="text-align: center;">{{importance}}</td>
+              <td style="text-align: center;">{{formattedYear year}}</td>
+                {{#each factors}}
+                <td style="text-align: center">{{formattedFactor factor}}</td>
+                {{/each}}
+              <td style="white-space: nowrap;">
+                <a href="#editSnowloadFactorModal" class="snowload-edit btn-floating light-green"><i class="material-icons">create</i></a>
+                <a href="#deleteSnowloadFactorModal" class="snowload-delete modal-trigger btn-floating white red-text"><i class="material-icons" style="color: #f44336 !important;">delete</i></a>
+              </td>
+            </tr>
+            {{/each}}
           {{#each snowloadMetrics}}
           <tr>
             <td>{{min}}</td>
@@ -53,8 +73,58 @@
         </tbody>
       </table>
     </div>
+
+    {{>deleteSnowloadFactorModal}}
+    {{>editSnowloadFactorModal}}
     {{/with}}
   {{else}}
     {{> loading}}
   {{/if}}
+</template>
+
+<template name="deleteSnowloadFactorModal">
+  <div id="deleteSnowloadFactorModal" class="modal">
+    <div class="modal-content">
+      <h4>Warning</h4>
+      <p>Deleting a region's snowload factors cannot be undone!</p>
+      <p>All records associated with this snowload factor will be removed.</p>
+    </div>
+    <div class="modal-footer">
+      <a id="go-ahead-and-delete-factor" href="#!" class="btn modal-action modal-close waves-effect red">Delete Factor</a>
+      <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
+</template>
+
+<template name="editSnowloadFactorModal">
+  <div id="editSnowloadFactorModal" class="modal">
+    <div class="modal-content">
+      <p>Year: {{year}}<br/>
+        Importance: {{importance}}<br/>
+        Roof type: {{roofType}}
+      </p>
+      <div style="height: 400px; min-height: 400px; overflow-y: auto;">
+        <table style="width: 100%;">
+          <tr>
+            <th style="text-align: center; width: 25%;">Pitch</th>
+            <th style="width: 25%;">Snowload Factor (psi)</th>
+            <th style="width: 50%;"></th>
+          </tr>
+        {{#with getCodes}}
+          {{#each factors}}
+            <tr>
+              <td style="text-align: center;">{{pitch}}</td>
+              <td><input type="text" name='{{pitch}}' value="{{factor}}" /></td>
+              <td><span id="text_{{pitch}}_error" style="visibility: hidden;" class="red-text">Value must be numeric</span></td>
+            </tr>
+          {{/each}}
+        {{/with}}
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a id="save-factor" href="#!" class="btn modal-action waves-effect light-green">Save</a>
+      <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
 </template>
