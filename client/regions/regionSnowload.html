@@ -10,9 +10,9 @@
   </nav>
   {{#if isSubReady 'region'}}
     {{#with getRegion}}
-    <div style="position: absolute; top: 78px; right: 10px;; width: 50%;">
+    <div style="position: absolute; top: 78px; right: 10px; width: 50%;">
       {{#if isInRole 'admin' 'default_group'}}
-      <a href="#" id="add_snowload" class="btn waves-effect waves-light light-green">New</a>
+      <a href="#addSnowloadFactorModal" id="add_snowload" class="btn modal-trigger waves-effect waves-light light-green">New</a>
       {{/if}}
       <span class="grey-text" style="margin-left: 25px;">Roof type:</span>
       <a href="#" id="btn_roof_type" class="dropdown-button btn waves-effect waves-light light-green" data-activates="roof_type" >Slippery</a>
@@ -26,7 +26,7 @@
         <thead>
           <tr>
             <th style="width: 8%; text-align: center">Importance</th>
-            <th style="width: 4%; text-align: center;">Year</th>
+            <th style="width: 8%; text-align: center;">Year</th>
             <th style="width: 4%; text-align: center">0</th>
             <th style="width: 4%; text-align: center">5</th>
             <th style="width: 4%; text-align: center">10</th>
@@ -50,32 +50,30 @@
           </tr>
         </thead>
         <tbody>
-            {{#each codes}}
-            <tr>
-              <td style="text-align: center;">{{importance}}</td>
-              <td style="text-align: center;">{{formattedYear year}}</td>
-                {{#each factors}}
-                <td style="text-align: center">{{formattedFactor factor}}</td>
-                {{/each}}
-              <td style="white-space: nowrap;">
-                <a href="#editSnowloadFactorModal" class="snowload-edit btn-floating light-green"><i class="material-icons">create</i></a>
-                <a href="#deleteSnowloadFactorModal" class="snowload-delete modal-trigger btn-floating white red-text"><i class="material-icons" style="color: #f44336 !important;">delete</i></a>
-              </td>
-            </tr>
-            {{/each}}
-          {{#each snowloadMetrics}}
+          {{#each codes}}
           <tr>
-            <td>{{min}}</td>
-            <td>{{max}}</td>
-            <td>{{avg}}</td>
+            <td style="text-align: center; width: 8%;">{{importance}}</td>
+            <td style="text-align: center; width: 8%;">{{formattedYear year}}</td>
+              {{#each factors}}
+              <td style="text-align: center; background-color: {{factorBGColor pitch factor}}; border-top: 1px solid white; border-right: 1px solid white;">{{formattedFactor factor}}</td>
+              {{/each}}
+            <td style="white-space: nowrap; width: 8%;">
+              <a href="#editSnowloadFactorModal" class="snowload-edit btn-floating light-green"><i class="material-icons">create</i></a>
+              <a href="#deleteSnowloadFactorModal" class="snowload-delete modal-trigger btn-floating white red-text"><i class="material-icons" style="color: #f44336 !important;">delete</i></a>
+            </td>
           </tr>
           {{/each}}
+          <tr><td colspan="22">&nbsp;</td></tr>
+          <tr><td colspan="22">&nbsp;</td></tr>
+          <tr><td colspan="22">&nbsp;</td></tr>
         </tbody>
       </table>
+      <br/><br/><br/>
     </div>
 
     {{>deleteSnowloadFactorModal}}
     {{>editSnowloadFactorModal}}
+    {{>addSnowloadFactorModal}}
     {{/with}}
   {{else}}
     {{> loading}}
@@ -124,6 +122,39 @@
     </div>
     <div class="modal-footer">
       <a id="save-factor" href="#!" class="btn modal-action waves-effect light-green">Save</a>
+      <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
+</template>
+
+<template name="addSnowloadFactorModal">
+  <div id="addSnowloadFactorModal" class="modal">
+    <div class="modal-content">
+      <div>
+        <table style="width: 100%;">
+          <tr><td width="25%">Year:</td><td><input type="text" name="year" /></td></tr>
+          <tr><td width="25%">Importance:</td><td><input type="text" name="importance" /></td></tr>
+        </table>
+      </div>
+      <div style="height: 210px; min-height: 210px; overflow-y: auto;">
+        <table style="width: 100%;">
+          <tr>
+            <th style="text-align: center; width: 25%;">Pitch</th>
+            <th style="width: 25%;">Snowload Factor (psi)</th>
+            <th style="width: 50%;"></th>
+          </tr>
+        {{#each getCodes}}
+          <tr>
+            <td style="text-align: center;">{{pitch}}</td>
+            <td><input type="text" name='add_{{pitch}}' /></td>
+            <td><span id="add_text_{{pitch}}_error" style="visibility: hidden;" class="red-text">Value must be numeric</span></td>
+          </tr>
+        {{/each}}
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a id="add-factor" href="#!" class="btn modal-action waves-effect light-green">Create</a>
       <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
     </div>
   </div>

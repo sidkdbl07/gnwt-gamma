@@ -34,11 +34,51 @@ Meteor.startup(() => {
                                      wind_direction: "NW",
                                      location: {type: 'Point', coordinates: [-121.3530, 61.8628]},
                                      snow_load_factors: {
-                                       thresholds: ['#1b5e20', '#689f38', '#cddc39', '#f57c00', '#b71c1c'],
-                                       levels: [
-                                         {'standard': [0,0,0,0,0]},
-                                         {'slippery': [0,0,0,0,0]}
-                                       ],
+                                       thresholds: ['#b71c1c','#f57c00', '#cddc39', '#689f38', '#1b5e20'],
+                                       levels: {
+                                         'standard': [
+                                           { pitch: 0, levels: [0,1,2,3,4]},
+                                           { pitch: 5, levels: [0,1,2,3,4]},
+                                           { pitch: 10, levels: [0,1,2,3,4]},
+                                           { pitch: 15, levels: [0,1,2,3,4]},
+                                           { pitch: 20, levels: [0,1,2,3,4]},
+                                           { pitch: 25, levels: [0,1,2,3,4]},
+                                           { pitch: 30, levels: [0,1,2,3,4]},
+                                           { pitch: 35, levels: [0,1,2,3,4]},
+                                           { pitch: 40, levels: [0,1,2,3,4]},
+                                           { pitch: 45, levels: [0,1,2,3,4]},
+                                           { pitch: 50, levels: [0,1,2,3,4]},
+                                           { pitch: 55, levels: [0,1,2,3,4]},
+                                           { pitch: 60, levels: [0,1,2,3,4]},
+                                           { pitch: 65, levels: [0,1,2,3,4]},
+                                           { pitch: 70, levels: [0,1,2,3,4]},
+                                           { pitch: 75, levels: [0,1,2,3,4]},
+                                           { pitch: 80, levels: [0,1,2,3,4]},
+                                           { pitch: 85, levels: [0,1,2,3,4]},
+                                           { pitch: 90, levels: [0,1,2,3,4]}
+                                         ],
+                                         'slippery': [
+                                           { pitch: 0, levels: [0,1,2,3,4]},
+                                           { pitch: 5, levels: [0,1,2,3,4]},
+                                           { pitch: 10, levels: [0,1,2,3,4]},
+                                           { pitch: 15, levels: [0,1,2,3,4]},
+                                           { pitch: 20, levels: [0,1,2,3,4]},
+                                           { pitch: 25, levels: [0,1,2,3,4]},
+                                           { pitch: 30, levels: [0,1,2,3,4]},
+                                           { pitch: 35, levels: [0,1,2,3,4]},
+                                           { pitch: 40, levels: [0,1,2,3,4]},
+                                           { pitch: 45, levels: [0,1,2,3,4]},
+                                           { pitch: 50, levels: [0,1,2,3,4]},
+                                           { pitch: 55, levels: [0,1,2,3,4]},
+                                           { pitch: 60, levels: [0,1,2,3,4]},
+                                           { pitch: 65, levels: [0,1,2,3,4]},
+                                           { pitch: 70, levels: [0,1,2,3,4]},
+                                           { pitch: 75, levels: [0,1,2,3,4]},
+                                           { pitch: 80, levels: [0,1,2,3,4]},
+                                           { pitch: 85, levels: [0,1,2,3,4]},
+                                           { pitch: 90, levels: [0,1,2,3,4]}
+                                         ]
+                                       },
                                        codes:[
                                          { year: new Date(1941,0,1), roof: 'standard', importance: 'all', factors: [
                                            { pitch: 0, factor: 1.92 },
@@ -113,24 +153,27 @@ Meteor.startup(() => {
                                    wind_direction: "NW",
                                    location: {type: 'Point', coordinates: [-111.8849, 60.0055]},
                                    snow_load_factors: {
-                                     thresholds: ['#1b5e20', '#689f38', '#cddc39', '#f57c00', '#b71c1c'],
-                                     levels:[]
+                                     thresholds: ['#b71c1c','#f57c00', '#cddc39', '#689f38', '#1b5e20'],
+                                     levels:[],
+                                     codes:[]
                                    }
     });
     var inuvik = Regions.insert({name: "Inuvik",
                                  wind_direction: "NW",
                                  location: {type: 'Point', coordinates: [-133.7230, 68.3607]},
                                  snow_load_factors: {
-                                   thresholds: ['#1b5e20', '#689f38', '#cddc39', '#f57c00', '#b71c1c'],
-                                   levels:[]
+                                   thresholds: ['#b71c1c','#f57c00', '#cddc39', '#689f38', '#1b5e20'],
+                                   levels:[],
+                                   codes:[]
                                  }
     });
     var yellowknife = Regions.insert({name: "Yellowknife",
                                       wind_direction: "NW",
                                       location: {type: 'Point', coordinates: [-114.3718, 62.4540]},
                                       snow_load_factors: {
-                                        thresholds: ['#1b5e20', '#689f38', '#cddc39', '#f57c00', '#b71c1c'],
-                                        levels:[]
+                                        thresholds: ['#b71c1c','#f57c00', '#cddc39', '#689f38', '#1b5e20'],
+                                        levels:[],
+                                        codes:[]
                                       }
     });
   }

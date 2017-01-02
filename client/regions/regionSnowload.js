@@ -11,6 +11,13 @@ if (Meteor.isClient) {
   });
 
   Template.regionSnowload.onRendered(function() {
+    if(Meteor.isCordova){
+      $(".content").css('height', '672px');
+      $(".content").css('max-height', '672px');
+    }else{
+      $(".content").css('height', '778px');
+      $(".content").css('max-height', '778px');
+    }
     $('.dropdown-button').dropdown({
       constrain_width: true,
       hover: false, // Activate on hover
@@ -32,6 +39,13 @@ if (Meteor.isClient) {
     codes: function() {
       //console.log(getRoofType()); // uncomment to test reactivity of codes
       var c = Regions.findOne().snow_load_factors.codes;
+      c.sort(function(a,b) { // sort by year
+        var keyA = new Date(a.year),
+            keyB = new Date(b.year);
+        if(keyA < keyB) return -1;
+        if(keyA > keyB) return 1;
+        return 0;
+      });
       return c.filter(function(e) {
         return e.roof == getRoofType();
       });
@@ -39,8 +53,29 @@ if (Meteor.isClient) {
     thresholds: function() {
       return Regions.findOne().snow_load_factors.thresholds;
     },
-    snowloadTable: function() {
-      return SnowLoadTable.find();
+    factorBGColor: function(pitch, factor) {
+      var thresholds = Regions.findOne().snow_load_factors.thresholds;
+      var levels = Regions.findOne().snow_load_factors.levels[Session.get('roof_type')];
+      //console.log(levels);
+      if(levels) {
+        //console.log("found levels");
+        for(var i=0; i<levels.length; i++) {
+          if(levels[i].pitch == pitch) {
+            for(var j=0; j<(levels[i].levels.length); j++) {
+              if(levels[i].levels[j] == levels[i].levels[j+1]) { // this is most often the case when all are zero
+                return thresholds[levels[i].levels.length-1];
+              }
+              if((factor >= levels[i].levels[j] && factor < levels[i].levels[j+1]) || (factor == levels[i].levels[j+1])) {
+                return thresholds[j+1];
+              }
+              if(factor < levels[i].levels[j]){
+                return thresholds[j];
+              }
+            }
+          }
+        }
+      }
+      return '#ffffff'; //default white
     },
     formattedYear: function(y) {
       return moment(y).format("YYYY");
@@ -82,6 +117,7 @@ if (Meteor.isClient) {
       var self = $(this); // current region
       //$.publish('toast', [self[0]._id+" "+Session.get('roof_type')+" "+Session.get('importance')+" "+Session.get('year'),"Factor","info",0]);
       Meteor.call('removeRegionalSnowloadFactors', self[0]._id, Session.get('roof_type'), Session.get('importance'), Session.get('year'));
+      Meteor.call('updateRegionalSnowloadLevels', self[0]._id);
       $.publish('toast', ["Factor deleted", "Success", "success", 0]);
     }
   });
@@ -130,6 +166,49 @@ if (Meteor.isClient) {
         //console.log(new_factors);
         //$.publish('toast', [self[0]._id+" "+Session.get('roof_type')+" "+Session.get('importance')+" "+Session.get('year'),"Factor","info",0]);
         Meteor.call('updateRegionalSnowloadFactors', self[0]._id, Session.get('roof_type'), Session.get('importance'), Session.get('year'), new_factors);
+        Meteor.call('updateRegionalSnowloadLevels', self[0]._id);
+        $.publish('toast', ["Factors saved", "Success", "success", 0]);
+      }
+      return false;
+    }
+  });
+
+  Template.addSnowloadFactorModal.helpers({
+    getCodes: function() {
+      var codes = [];
+      var pitches = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90];
+      pitches.forEach(function(e) {
+        codes.push({pitch: e, factor: 0});
+      });
+      return codes;
+    },
+    roofType: function() {
+      return Session.get('roof_type');
+    }
+  });
+
+  Template.addSnowloadFactorModal.events({
+    'click #add-factor': function(e) {
+      var self = $(this); // current region
+      var pitches = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90];
+      var error_present = false;
+      pitches.forEach(function(e) {
+        if(!isNumeric($("input[name='add_"+e+"']").val())) {
+          $("#add_text_"+e+"_error").css('visibility', 'visible');
+          $.publish('toast', ["Invalid factor value for "+e+" degrees", "Error", "error", 0]);
+          error_present = true;
+        }
+      })
+      if(!error_present) {
+        $("#addSnowloadFactorModal").closeModal();
+        var new_factors = [];
+        pitches.forEach(function(e) {
+          new_factors.push({pitch: e, factor: parseFloat($("input[name='add_"+e+"']").val())});
+        })
+        //console.log(new_factors);
+        //$.publish('toast', [self[0]._id+" "+Session.get('roof_type')+" "+Session.get('importance')+" "+Session.get('year'),"Factor","info",0]);
+        Meteor.call('addRegionalSnowloadFactors', self[0]._id, Session.get('roof_type'), $('input[name="importance"]').val(), $('input[name="year"]').val(), new_factors);
+        Meteor.call('updateRegionalSnowloadLevels', self[0]._id);
         $.publish('toast', ["Factors saved", "Success", "success", 0]);
       }
       return false;
