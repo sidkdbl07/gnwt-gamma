@@ -1,7 +1,28 @@
 <template name="buildingEdit">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <a href="{{pathFor '/buildings'}}" class="breadcrumb grey-text text-darken-3">Buildings</a>
+        <span class="breadcrumb grey-text text-darken-3">{{getBuilding.name}}</span>
+      </div>
+    </div>
+  </nav>
   {{#if isSubReady 'building'}}
     {{#with getBuilding}}
-    <h2>{{name}}</h2>Edit
+    <div style="position: absolute; top: 78px; right: 50%;">
+      {{#if isInRole 'admin' 'default_group'}}
+      <a href="#" id="save_building" class="btn waves-effect waves-light light-green tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Save building">Save</a>
+      {{/if}}
+    </div>
+    <h2>{{name}}</h2>
+    <div class="row content">
+      <div class="input-field col s5">
+        <input type="hidden" id="edit_building_id" name="edit_building_id" value="{{_id}}"/>
+        <input type="text" placeholder="Enter a name" id="edit_building_name" name="edit_building_name" class="validate" value="{{name}}"/>
+        <label for="edit_building_name" class="active" >Name of Building</label>
+      </div>
+    </div>
+
     {{/with}}
   {{else}}
     {{> loading}}

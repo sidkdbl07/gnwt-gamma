@@ -65,11 +65,13 @@ if (Meteor.isClient) {
               if(levels[i].levels[j] == levels[i].levels[j+1]) { // this is most often the case when all are zero
                 return thresholds[levels[i].levels.length-1];
               }
-              if((factor >= levels[i].levels[j] && factor < levels[i].levels[j+1]) || (factor == levels[i].levels[j+1])) {
+              if((factor >= levels[i].levels[j] && factor <= levels[i].levels[j+1]) || Math.abs(factor - levels[i].levels[j+1]) <= 0.0001) {
                 return thresholds[j+1];
               }
               if(factor < levels[i].levels[j]){
                 return thresholds[j];
+              } else {
+                //console.log(factor+" "+levels[i].levels[j]+" "+thresholds[j]);
               }
             }
           }
