@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-
 import './regionSnowload.html';
 
 if (Meteor.isClient) {
@@ -40,10 +39,24 @@ if (Meteor.isClient) {
       //console.log(getRoofType()); // uncomment to test reactivity of codes
       var c = Regions.findOne().snow_load_factors.codes;
       c.sort(function(a,b) { // sort by year
-        var keyA = new Date(a.year),
-            keyB = new Date(b.year);
-        if(keyA < keyB) return -1;
-        if(keyA > keyB) return 1;
+        var key1A = new Date(a.year),
+            key1B = new Date(b.year);
+        if(key1A < key1B) return -1;
+        if(key1A > key1B) return 1;
+        var key2A = a.importance,
+            key2B = b.importance;
+        if(key2A == "Low importance" && key2B == "Normal importance") return -1;
+        if(key2A == "Low importance" && key2B == "High importance") return -1;
+        if(key2A == "Low importance" && key2B == "Post-disaster importance") return -1;
+        if(key2A == "Normal importance" && key2B == "High importance") return -1;
+        if(key2A == "Normal importance" && key2B == "Post-disaster importance") return -1;
+        if(key2A == "High importance" && key2B == "Post-disaster importance") return -1;
+        if(key2A == "Post-disaster importance" && key2B == "High importance") return 1;
+        if(key2A == "Post-disaster importance" && key2B == "Normal importance") return 1;
+        if(key2A == "Post-disaster importance" && key2B == "Low importance") return 1;
+        if(key2A == "High importance" && key2B == "Normal importance") return 1;
+        if(key2A == "High importance" && key2B == "Low importance") return 1;
+        if(key2A == "Normal importance" && key2B == "Low importance") return 1;
         return 0;
       });
       return c.filter(function(e) {
