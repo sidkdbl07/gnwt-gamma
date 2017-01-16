@@ -1,3 +1,6 @@
+Meteor.publish('singleBook', function (bookId) {
+  return Books.find({ _id: bookId });
+});
 Meteor.publish('singleBuilding', function (buildingId) {
   return Buildings.find({ _id: buildingId });
 });
@@ -19,6 +22,13 @@ Meteor.publish("directory", function() {
   } else {
     return [];
   }
+});
+Meteor.publish("tabularBooks", function(tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  return Books.find({_id: {$in: ids}}, {fields: fields});
 });
 
 Meteor.publishComposite("tabularBuildings", function(tableName, ids, fields) {

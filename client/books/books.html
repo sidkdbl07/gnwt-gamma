@@ -1,0 +1,48 @@
+<template name="books">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <span class="breadcrumb grey-text text-darken-3">Books</span>
+      </div>
+    </div>
+  </nav>
+  <div style="position: absolute; top: 78px; right: 100px;">
+    {{#if isInRole 'admin' 'default_group'}}
+    <a href="{{pathFor 'bookAdd'}}" class="btn waves-effect waves-light light-green">New</a>
+    {{/if}}
+  </div>
+  {{> tabular table=TabularTables.Books class="table table-striped"}}
+
+  {{>deleteBookModal}}
+</template>
+
+<template name="bookTableButtons">
+  <div style="position: relative;">
+    <div style="position: absolute; right: 10px; top: -17px;">
+      <a href="{{pathFor '/book/edit/:id' id=item._id}}" class="book-view btn-floating light-green"><i class="material-icons">create</i></a>
+    </div>
+  {{#if isInRole 'admin' 'default_group'}}
+    <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right: 74px; top: -17px;">
+      <a class='btn-floating white'><i class="material-icons" style="color: #8bc34a !important;">more_horiz</i></a>
+      <ul style="position: absolute; top: -17px;">
+        <li><a href="#deleteBookModal" class="book-delete modal-triger btn-floating red"><i class="material-icons">delete</i></a></li>
+      </ul>
+    </div>
+  {{/if}}
+  </div>
+</template>
+
+<template name="deleteBookModal">
+  <input type="hidden" id="delete_book_id" value="" />
+  <div id="deleteBookModal" class="modal">
+    <div class="modal-content">
+      <h4>Warning</h4>
+      <p>Deleting a book cannot be undone!</p>
+      <p>All records associated with this book (including inspections) will be removed.</p>
+    </div>
+    <div class="modal-footer">
+      <a id="go-ahead-and-delete-book" href="#!" class="btn modal-action modal-close waves-effect red">Delete Book</a>
+      <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
+</template>

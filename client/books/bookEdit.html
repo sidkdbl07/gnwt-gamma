@@ -1,0 +1,35 @@
+<template name="bookEdit">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <a href="{{pathFor '/books'}}" class="breadcrumb grey-text text-darken-3">Books</a>
+        <span class="breadcrumb grey-text text-darken-3">{{getBook.name}} <span class="blue-text">[Edit Details]</span></span>
+      </div>
+    </div>
+  </nav>
+  {{#if isSubReady 'book'}}
+    {{#with getBook}}
+    <div style="position: absolute; top: 78px; right: 50%;">
+      {{#if isInRole 'admin' 'default_group'}}
+      <a href="#" id="save_book" class="btn waves-effect waves-light light-green tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Save book">Save</a>
+      {{/if}}
+    </div>
+    <div class="row">
+      <div class="col s12"><h2>{{name}}</h2></div>
+    </div>
+    <div class="row">
+      <div class="col s5">
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="hidden" id="edit_book_id" name="edit_book_id" value="{{_id}}"/>
+            <input type="text" placeholder="Enter a name" id="edit_book_name" name="edit_book_name" class="validate" value="{{name}}"/>
+            <label for="edit_book_name" class="active" >Name of Book</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/with}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>

@@ -1,7 +1,74 @@
 <template name="buildingView">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <a href="{{pathFor '/buildings'}}" class="breadcrumb grey-text text-darken-3">Buildings</a>
+        <span class="breadcrumb grey-text text-darken-3">{{getBuilding.name}}</span>
+      </div>
+    </div>
+  </nav>
   {{#if isSubReady 'building'}}
     {{#with getBuilding}}
-    <h2>{{name}}</h2>View
+    <div class="content">
+      <div class="row">
+        <div class="col s12"><h2>{{name}}</h2></div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <h5>Potential Capacity</h5>
+          <ul class='collapsible'>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">label</i>As-Built Capacity</div>
+              <div class="collapsible-body">
+                <p>The as-built capacity is the snow-loading capacity of the building when it was constructed.
+                  It assumes the building was constructed to at least the building code requirements of the day.</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">label</i>Building Deterioration</div>
+              <div class="collapsible-body">
+                <p>Based on assessment, this is the observed level of deterioration of various building elements.</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">label</i>Permafrost Care</div>
+              <div class="collapsible-body">
+                <p>This is how well permafrost conditions are being maintained at the building.</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">star</i>Building Priority</div>
+              <div class="collapsible-body">
+                <p>This is the current priority of the building based on its primary use.</p>
+              </div>
+            </li>
+          </ul>
+
+          <h5 style="margin-top: 50px;">Actual Capacity</h5>
+          <ul class='collapsible'>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">label</i>Snow Loading (Normal)</div>
+              <div class="collapsible-body">
+                <p>Normal snow loading is a measure of the average or typical snow loading on the roof.</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">label</i>Snow Loading (Abnormal)</div>
+              <div class="collapsible-body">
+                <p>Abnormal snow loading is a measure of accumulated snow by specific loaction on the roof.</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">label</i>Falling Snow</div>
+              <div class="collapsible-body">
+                <p>This is the potential for snow to accumulate and / or fall between roof areas.</p>
+              </div>
+            </li>
+          </ul>
+          {{collapsibleMaker}}
+        </div>
+      </div>
+    </div>
     {{/with}}
   {{else}}
     {{> loading}}

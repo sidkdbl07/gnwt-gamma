@@ -1,0 +1,25 @@
+<template name="bookAdd">
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <a href="{{pathFor 'books'}}" class="breadcrumb grey-text text-darken-3">Books</a>
+        <span class="breadcrumb grey-text text-darken-3">Add a Book</span>
+      </div>
+    </div>
+  </nav>
+  <div style="position: absolute; top: 78px; right: 50%;">
+    <a class="btn waves-effect waves-light light-green" id="save_new_book">Save</a>
+  </div>
+  <form id="form_book_new">
+    <div class="row">
+      <div class="input-field col s5">
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" id="create_book_name" name="create_book_name" class="validate"/>
+            <label for="create_book_name" >Name of Book</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</template>

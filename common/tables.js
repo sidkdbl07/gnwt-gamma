@@ -1,5 +1,37 @@
 TabularTables = {};
 
+TabularTables.Books = new Tabular.Table({
+  name: "Books",
+  collection: Books,
+  pub: 'tabularBooks',
+  allow: function() {
+    return true;
+  },
+  paging: false,
+  limit: 500,
+  sScrollY: ((Meteor.isClient) ? $(document).height() - 205 : 400),
+  bScrollCollapse: true,
+  bFilter: false,
+  bInfo: false,
+  order: [[0, "asc"]],
+  aoColumnDefs: [ { "sClass": "nowrap", "aTargets": [ 1 ] } ],
+  extraFields: ['_id'],
+  columns: [
+    {data: "name", title: "Book Name", width: '80%'},
+    {
+      title: "",
+      width: '20%',
+      tmpl: Meteor.isClient && Template.bookTableButtons,
+      tmplContext: function(rowData) {
+        return {
+          item: rowData,
+          column: 'buttons'
+        };
+      }
+    }
+  ]
+});
+
 TabularTables.Buildings = new Tabular.Table({
   name: "Buildings",
   collection: Buildings,

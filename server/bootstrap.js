@@ -27,6 +27,10 @@ Meteor.startup(() => {
   Ground.Collection(Meteor.users);
   if(Meteor.isCordova) Ground.Collection(Roles);
 
+  if(Books.find().count() == 0) {
+    Books.insert({name: "Building Use and Importance"});
+  }
+
   ////////////////////////////////
   // Regions
   if (Regions.find().count() === 0) {

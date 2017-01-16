@@ -8,7 +8,17 @@ if (Meteor.isClient) {
     DocHead.setTitle("Building | GNWT PWS");
   });
 
+  Template.buildingView.onRendered(function() {
+    console.log("Rendered");
+  });
+
   Template.buildingView.helpers({
+    collapsibleMaker: function() {
+      console.log("Making collapsibles");
+      $('.collapsible').collapsible({
+        accordion: false
+      });
+    },
     getBuilding: function () {
       return Buildings.findOne();
     }

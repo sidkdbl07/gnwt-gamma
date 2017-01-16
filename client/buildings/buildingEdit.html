@@ -3,7 +3,7 @@
     <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
       <div class="col s12">
         <a href="{{pathFor '/buildings'}}" class="breadcrumb grey-text text-darken-3">Buildings</a>
-        <span class="breadcrumb grey-text text-darken-3">{{getBuilding.name}}</span>
+        <span class="breadcrumb grey-text text-darken-3">{{getBuilding.name}} <span class="blue-text">[Edit Details]</span></span>
       </div>
     </div>
   </nav>
@@ -14,31 +14,49 @@
       <a href="#" id="save_building" class="btn waves-effect waves-light light-green tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Save building">Save</a>
       {{/if}}
     </div>
-    <h2>{{name}}</h2>
     <div class="row">
-      <div class="input-field col s5">
-        <input type="hidden" id="edit_building_id" name="edit_building_id" value="{{_id}}"/>
-        <input type="text" placeholder="Enter a name" id="edit_building_name" name="edit_building_name" class="validate" value="{{name}}"/>
-        <label for="edit_building_name" class="active" >Name of Building</label>
-      </div>
+      <div class="col s12"><h2>{{name}}</h2></div>
     </div>
     <div class="row">
-      <div class="input-field col s5">
-        <input type="text" placeholder="Enter an address" id="edit_building_address" name="edit_building_address" class="validate" value="{{address}}"/>
-        <label for="edit_building_address" class="active" >Building Address</label>
+      <div class="col s5">
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="hidden" id="edit_building_id" name="edit_building_id" value="{{_id}}"/>
+            <input type="text" placeholder="Enter a name" id="edit_building_name" name="edit_building_name" class="validate" value="{{name}}"/>
+            <label for="edit_building_name" class="active" >Name of Building</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" placeholder="Enter an address" id="edit_building_address" name="edit_building_address" class="validate" value="{{address}}"/>
+            <label for="edit_building_address" class="active" >Building Address</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="hidden" id="edit_building_region_id" name="edit_building_region_id" value="{{region_id}}"/>
+            <a href="#" id="edit_building_region" class="dropdown-button btn btn-flat waves-effect waves-light black-text"  data-activates="building_region" style="text-transform: capitalize;"><i class="material-icons right">arrow_drop_down</i>{{region_name}}</a>
+            <label for="edit_building_region" class="active" >Region</label>
+          </div>
+          <ul id="building_region" class="dropdown-content">
+            {{#each getRegions}}
+            <li><a href="#" id="{{_id}}" class="building_region_selection">{{name}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s5">
-        <input type="hidden" id="edit_building_region_id" name="edit_building_region_id" value="{{region_id}}"/>
-        <a href="#" id="edit_building_region" class="dropdown-button btn btn-flat waves-effect waves-light black-text"  data-activates="building_region" style="text-transform: capitalize;"><i class="material-icons right">arrow_drop_down</i>{{region_name}}</a>
-        <label for="edit_building_region" class="active" >Region</label>
+      <div class="col s6 offset-s1">
+        <p>A building's location is defined by six values. The diagram below depicts the postions of each value relative to the aerial photo.</p>
+        <div class="s12 card grey lighten-3">
+          <div class="card-content">
+            <p class="green-text">Centre Point</p>
+            <label for="edit_building_center_latitude" class="active" >Latitude</label>
+            <input type="text" placeholder="60.12345" id="edit_building_center_latitude" value="{{location.coordinates.[1]}}"/>
+            <label for="edit_building_center_longitude" class="active" >Longitude</label>
+            <input type="text" placeholder="60.12345" id="edit_building_center_longitude" value="{{location.coordinates.[0]}}"/>
+          </div>
+        </div>
       </div>
-      <ul id="building_region" class="dropdown-content">
-        {{#each getRegions}}
-        <li><a href="#" id="{{_id}}" class="building_region_selection">{{name}}</a></li>
-        {{/each}}
-      </ul>
     </div>
     {{/with}}
   {{else}}
