@@ -39,6 +39,39 @@ if (Meteor.isClient) {
       }
       Meteor.call('editBook', {_id: bookID, name: name});
       $.publish('toast', ["Book saved", "Success", "success", 0]);
+    },
+    'click #btn_book_details': function(event) {
+      event.preventDefault();
+      $("#book_view").html("<i class='material-icons right'>arrow_drop_down</i>BOOK DETAILS");
+      $(".book-view").hide();
+      $("#book_details").show();
+    },
+    'click #btn_book_elements': function(event) {
+      event.preventDefault();
+      $("#book_view").html("<i class='material-icons right'>arrow_drop_down</i>ELEMENTS");
+      $(".book-view").hide();
+      $("#book_elements").show();
+    },
+    'click #btn_book_rules': function(event) {
+      event.preventDefault();
+      $("#book_view").html("<i class='material-icons right'>arrow_drop_down</i>RULES");
+      $(".book-view").hide();
+      $("#book_rules").show();
     }
   });
+
+  Template.bookElements.onRendered(function() {
+    Sortable.create(bookElementTypes, {
+      group: 'bookElementTypes',
+      animation: 100
+    });
+    Sortable.create(bookElements, {
+      group: {
+        name: 'bookElements',
+        put: ['bookElementTypes']
+      },
+      animation: 100
+    });
+  });
+
 }

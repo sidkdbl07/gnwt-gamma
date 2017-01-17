@@ -6,7 +6,7 @@ import './regionSnowload.html';
 if (Meteor.isClient) {
   Template.regionSnowload.onCreated(function() {
     DocHead.setTitle("Snowloads | GNWT PWS");
-    Session.set('roof_type', 'slippery');
+    Session.set('roof_type', 'standard');
   });
 
   Template.regionSnowload.onRendered(function() {
@@ -38,7 +38,7 @@ if (Meteor.isClient) {
     codes: function() {
       //console.log(getRoofType()); // uncomment to test reactivity of codes
       var c = Regions.findOne().snow_load_factors.codes;
-      c.sort(function(a,b) { // sort by year
+      c.sort(function(a,b) { // sort by year, then by importance
         var key1A = new Date(a.year),
             key1B = new Date(b.year);
         if(key1A < key1B) return -1;

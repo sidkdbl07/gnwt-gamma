@@ -9,16 +9,18 @@ if (Meteor.isClient) {
   });
 
   Template.buildingView.onRendered(function() {
-    console.log("Rendered");
+    $('#collapsible-potential-capacity').collapsible({
+      accordion: false
+    });
+    $('#collapsible-actual-capacity').collapsible({
+      accordion: false
+    });
+    $('#collapsible-assessments').collapsible({
+      accordion: false
+    });
   });
 
   Template.buildingView.helpers({
-    collapsibleMaker: function() {
-      console.log("Making collapsibles");
-      $('.collapsible').collapsible({
-        accordion: false
-      });
-    },
     getBuilding: function () {
       return Buildings.findOne();
     }

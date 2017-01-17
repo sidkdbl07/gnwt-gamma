@@ -3,33 +3,67 @@
     <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
       <div class="col s12">
         <a href="{{pathFor '/books'}}" class="breadcrumb grey-text text-darken-3">Books</a>
-        <span class="breadcrumb grey-text text-darken-3">{{getBook.name}} <span class="blue-text">[Edit Details]</span></span>
+        <span class="breadcrumb grey-text text-darken-3">{{getBook.name}}</span>
       </div>
     </div>
   </nav>
   {{#if isSubReady 'book'}}
     {{#with getBook}}
-    <div style="position: absolute; top: 78px; right: 50%;">
+    <div style="position: absolute; top: 78px; right: 10%;">
+      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>ELEMENTS</a>
+      <ul id="view_type" class="dropdown-content">
+        <li><a id="btn_book_details" href="#" class="green-text">BOOK DETAILS</a></li>
+        <li><a id="btn_book_elements" href="#" class="green-text">ELEMENTS</a></li>
+        <li><a id="btn_book_rules" href="#" class="green-text">RULES</a></li>
+      </ul>
+    </div>
+    <div class="row book-view" id="book_elements">
+      <div class="col s6">
+        {{> bookElements}}
+      </div>
+    </div>
+    <div class="book-view" id="book_details" style="display: none;">
       {{#if isInRole 'admin' 'default_group'}}
-      <a href="#" id="save_book" class="btn waves-effect waves-light light-green tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Save book">Save</a>
+      <div style="position: absolute; top: 78px; right: 2%;">
+        <a href="#" id="save_book" style="margin-left: 20px;" class="btn waves-effect waves-light light-green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save book">Save</a>
+      </div>
       {{/if}}
-    </div>
-    <div class="row">
-      <div class="col s12"><h2>{{name}}</h2></div>
-    </div>
-    <div class="row">
-      <div class="col s5">
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="hidden" id="edit_book_id" name="edit_book_id" value="{{_id}}"/>
-            <input type="text" placeholder="Enter a name" id="edit_book_name" name="edit_book_name" class="validate" value="{{name}}"/>
-            <label for="edit_book_name" class="active" >Name of Book</label>
+      <div class="row">
+        <div class="col s5">
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="hidden" id="edit_book_id" name="edit_book_id" value="{{_id}}"/>
+              <input type="text" placeholder="Enter the name of the book" id="edit_book_name" name="edit_book_name" class="validate" value="{{name}}"/>
+              <label for="edit_book_name" class="active" >Name of Book</label>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row book-view" id="book_rules" style="display: none;">
+      <div class="col s5">
+        Rules
       </div>
     </div>
     {{/with}}
   {{else}}
     {{> loading}}
   {{/if}}
+</template>
+
+<template name="bookElements">
+  <div class="row">
+    <div class="col s3">
+      <ul id="bookElementTypes">
+        <li class="element">Choice</li>
+        <li class="element">Numeric</li>
+        <li class="element">Yes/No</li>
+      </ul>
+    </div>
+    <div class="col s9">
+      <ul id='bookElements'>
+        <li class="element">Choice</li>
+      </ul>
+    </div>
+  </div>
 </template>

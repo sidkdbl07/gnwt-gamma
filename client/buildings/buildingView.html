@@ -11,12 +11,44 @@
     {{#with getBuilding}}
     <div class="content">
       <div class="row">
-        <div class="col s12"><h2>{{name}}</h2></div>
-      </div>
-      <div class="row">
-        <div class="col s12">
-          <h5>Potential Capacity</h5>
-          <ul class='collapsible'>
+        <div class="col s6">
+          <h5>Assessments</h5>
+          <ul class="collapsible" data-collapsible="expandable" id="collapsible-assessments">
+            <li>
+              <div class="collapsible-header"><i class="material-icons">assignment</i>Building Use and Importance</div>
+              <div class="collapsible-body">
+                <p>blah</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">assignment</i>Aerial Image and Roof Surfaces</div>
+              <div class="collapsible-body">
+                <p>blah</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">assignment</i>Deterioration</div>
+              <div class="collapsible-body">
+                <p>blah</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">assignment</i>Snow and Ice Measurements</div>
+              <div class="collapsible-body">
+                <p>blah</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">assignment</i>Falling Snow</div>
+              <div class="collapsible-body">
+                <p>blah</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col s6">
+          <h5><span class="grey-text">Scorecards:</span> Potential Capacity</h5>
+          <ul class='collapsible' data-collapsible="expandable" id="collapsible-potential-capacity">
             <li>
               <div class="collapsible-header"><i class="material-icons">label</i>As-Built Capacity</div>
               <div class="collapsible-body">
@@ -44,8 +76,8 @@
             </li>
           </ul>
 
-          <h5 style="margin-top: 50px;">Actual Capacity</h5>
-          <ul class='collapsible'>
+          <h5 style="margin-top: 50px;"><span class="grey-text">Scorecards:</span> Actual Capacity</h5>
+          <ul class='collapsible' data-collapsible="expandable" id="collapsible-actual-capacity">
             <li>
               <div class="collapsible-header"><i class="material-icons">label</i>Snow Loading (Normal)</div>
               <div class="collapsible-body">
@@ -65,7 +97,6 @@
               </div>
             </li>
           </ul>
-          {{collapsibleMaker}}
         </div>
       </div>
     </div>
