@@ -61,17 +61,60 @@ if (Meteor.isClient) {
   });
 
   Template.bookElements.onRendered(function() {
-    Sortable.create(bookElementTypes, {
-      group: 'bookElementTypes',
-      animation: 100
-    });
-    Sortable.create(bookElements, {
-      group: {
-        name: 'bookElements',
-        put: ['bookElementTypes']
-      },
-      animation: 100
-    });
+    // Sortable.create(bookElementTypes, {
+    //   group: 'bookElementTypes',
+    //   animation: 100,
+    //   sort: true,
+    //   onRemove: function(e) {
+    //     e.target.appendChild(e.item.cloneNode(true));
+    //   }
+    // });
+    // Sortable.create(bookElements, {
+    //   group: {
+    //     name: 'bookElements',
+    //     put: ['bookElementTypes']
+    //   },
+    //   animation: 100
+    // });
+  });
+
+  Template.bookElements.helpers({
+    bookElementTypes: function() {
+      return [{name: "Choice", order: 0}, {name: "Numeric", order: 1}, {name: "Yes/No", order: 2}]
+    },
+    bookElementTypesOptions: function() {
+      return {
+        sortField: 'order',
+        animation: 100,
+        group: {
+          name: 'bookElementTypes',
+          pull: 'clone',
+          put: false
+        },
+        sort: false
+      }
+    },
+    bookElements: function() {
+      return BookElements.find({}, {sort: {order:1}});
+    },
+    bookElementsOptions: function() {
+      return {
+        sortField: 'order',
+        animation: 100,
+        group: {
+          name: 'bookElements',
+          pull: false,
+          put: ['bookElementTypes']
+        },
+        sort: true,
+        onAdd: function(event) {
+          delete event.data._id;
+          delete event.data.name;
+          event.data.text = "Enter your question";
+          event.data.book_id = FlowRouter.getParam("bookId");
+        }
+      }
+    }
   });
 
 }

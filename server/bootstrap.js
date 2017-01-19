@@ -28,7 +28,17 @@ Meteor.startup(() => {
   if(Meteor.isCordova) Ground.Collection(Roles);
 
   if(Books.find().count() == 0) {
-    Books.insert({name: "Building Use and Importance"});
+    var roofsBook = Books.insert({name: "Aerial Images and Roof Surfaces"});
+    var buildingUseBook = Books.insert({name: "Building Use and Importance"});
+    var deteriorationBook = Books.insert({name: "Deterioration"});
+    var fallingSnowBook = Books.insert({name: "Falling Snow"});
+    var snowAndIceBook = Books.insert({name: "Snow and Ice Measurements"});
+    var permafrostBook = Books.insert({name: "Permafrost"});
+  }
+  if(BookElements.find().count() == 0) {
+    BookElements.insert({text: "What is your sex?", order: 0, book_id: buildingUseBook});
+    BookElements.insert({text: "What is your age?", order: 1, book_id: buildingUseBook});
+    BookElements.insert({text: "What is your preference?", order: 2, book_id: buildingUseBook});
   }
 
   ////////////////////////////////

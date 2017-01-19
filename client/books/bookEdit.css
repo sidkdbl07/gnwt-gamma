@@ -1,13 +1,13 @@
-li.element {
+.element {
   border: 1px solid #dcdcdc;
-  height: 25px;
-  line-height: 25px;
+  height: 35px;
+  line-height: 35px;
   padding-left: 10px;
   margin: 1px;
 }
 
 .sortable-ghost {
   border: 2px dashed #dcdcdc;
-  height: 25px;
+  height: 35px;
   opacity: .6;
 }

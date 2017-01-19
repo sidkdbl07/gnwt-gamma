@@ -54,16 +54,23 @@
 <template name="bookElements">
   <div class="row">
     <div class="col s3">
-      <ul id="bookElementTypes">
-        <li class="element">Choice</li>
-        <li class="element">Numeric</li>
-        <li class="element">Yes/No</li>
-      </ul>
+      <div class="sortable list-group">
+      {{#sortable items=bookElementTypes options=bookElementTypesOptions}}
+        <div class="list-group-item element">{{name}}</div>
+      {{/sortable}}
+    </div>
     </div>
     <div class="col s9">
-      <ul id='bookElements'>
-        <li class="element">Choice</li>
-      </ul>
+      <div class="sortable list-group">
+      {{#sortable items=bookElements options=bookElementsOptions}}
+        <div class="list-group-item element">{{text}}</div>
+      {{/sortable}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s3">
+
     </div>
   </div>
 </template>

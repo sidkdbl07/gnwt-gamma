@@ -1,6 +1,10 @@
 Meteor.publish('singleBook', function (bookId) {
   return Books.find({ _id: bookId });
 });
+Meteor.publish('singleBookElements', function (bookId) {
+  var be = BookElements.find({ book_id: bookId });
+  return be;
+});
 Meteor.publish('singleBuilding', function (buildingId) {
   return Buildings.find({ _id: buildingId });
 });
