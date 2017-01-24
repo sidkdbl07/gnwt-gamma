@@ -36,9 +36,9 @@ Meteor.startup(() => {
     var permafrostBook = Books.insert({name: "Permafrost"});
   }
   if(BookElements.find().count() == 0) {
-    BookElements.insert({text: "What is your sex?", order: 0, book_id: buildingUseBook});
-    BookElements.insert({text: "What is your age?", order: 1, book_id: buildingUseBook});
-    BookElements.insert({text: "What is your preference?", order: 2, book_id: buildingUseBook});
+    BookElements.insert({text: "What is your sex?", order: 0, type: 'numeric', book_id: buildingUseBook});
+    BookElements.insert({text: "What is your age?", order: 1, type: 'numeric', book_id: buildingUseBook});
+    BookElements.insert({text: "What is your preference?", order: 2, type: 'choice', book_id: buildingUseBook});
   }
 
   ////////////////////////////////

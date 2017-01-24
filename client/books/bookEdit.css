@@ -2,8 +2,17 @@
   border: 1px solid #dcdcdc;
   height: 35px;
   line-height: 35px;
-  padding-left: 10px;
   margin: 1px;
+  cursor: pointer;
+}
+
+.element > i {
+  vertical-align: middle;
+  margin: 3px 10px 3px 3px;
+}
+
+.element.page {
+  margin-top: 20px;
 }
 
 .sortable-ghost {

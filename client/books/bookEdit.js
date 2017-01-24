@@ -80,7 +80,19 @@ if (Meteor.isClient) {
 
   Template.bookElements.helpers({
     bookElementTypes: function() {
-      return [{name: "Choice", order: 0}, {name: "Numeric", order: 1}, {name: "Yes/No", order: 2}]
+      return [{name: "Choice", type: "choice", order: 0},
+              {name: "Date", type: "date", order:1},
+              {name: "Numeric", type: "numeric", order: 2},
+              {name: "Photo", type: "photo", order: 3},
+              {name: "Yes/No", type:"yesno", order: 4}];
+    },
+    bookMapTypes: function() {
+      return [{name: "Point", type: "point", order: 0},
+              {name: "Line", type: "line", order: 1},
+              {name: "Polygon", type: "poly", order: 2}];
+    },
+    bookOtherTypes: function() {
+      return [{name: "Page Break", type: "page", icon: "more_horiz", order: 0}];
     },
     bookElementTypesOptions: function() {
       return {
@@ -110,10 +122,21 @@ if (Meteor.isClient) {
         onAdd: function(event) {
           delete event.data._id;
           delete event.data.name;
-          event.data.text = "Enter your question";
+          event.data.text = event.data.type;
           event.data.book_id = FlowRouter.getParam("bookId");
         }
       }
+    },
+    icon: function(type) {
+      if(type == 'choice') return "check_circle";
+      if(type == 'date') return "event_note";
+      if(type == 'line') return "remove";
+      if(type == 'numeric') return "looks_one";
+      if(type == 'photo') return "photo_camera";
+      if(type == 'yesno') return "iso";
+      if(type == 'page') return "more_horiz";
+      if(type == 'point') return "place";
+      if(type == 'poly') return "check_box_outline_blank";
     }
   });
 

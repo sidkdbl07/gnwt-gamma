@@ -18,7 +18,7 @@
       </ul>
     </div>
     <div class="row book-view" id="book_elements">
-      <div class="col s6">
+      <div class="col s12">
         {{> bookElements}}
       </div>
     </div>
@@ -53,17 +53,31 @@
 
 <template name="bookElements">
   <div class="row">
-    <div class="col s3">
+    <div class="col s2">
+      <div class="grey-text" style="margin-top: 20px;">Question Types</div>
       <div class="sortable list-group">
       {{#sortable items=bookElementTypes options=bookElementTypesOptions}}
-        <div class="list-group-item element">{{name}}</div>
+        <div class="list-group-item element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
       {{/sortable}}
+      </div>
+      <div class="grey-text" style="margin-top: 20px;">Map Types</div>
+      <div class="sortable list-group">
+      {{#sortable items=bookMapTypes options=bookElementTypesOptions}}
+        <div class="list-group-item element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
+      {{/sortable}}
+      </div>
+      <div class="grey-text" style="margin-top: 20px;">Other</div>
+      <div class="sortable list-group">
+      {{#sortable items=bookOtherTypes options=bookElementTypesOptions}}
+        <div class="list-group-item element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
+      {{/sortable}}
+      </div>
     </div>
-    </div>
-    <div class="col s9">
+    <div class="col s10">
+      <div class="grey-text" style="margin-top: 20px;">Elements</div>
       <div class="sortable list-group">
       {{#sortable items=bookElements options=bookElementsOptions}}
-        <div class="list-group-item element">{{text}}</div>
+        <div class="list-group-item element {{type}}"><i class="material-icons">{{icon type}}</i>{{text}}</div>
       {{/sortable}}
       </div>
     </div>
