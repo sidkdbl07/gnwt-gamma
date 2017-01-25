@@ -1,0 +1,35 @@
+<template name="bookElementDetails">
+  <div style="float: right;">
+    <a href="#" class="btn waves-effect red delete-element" element_id="{{_id}}">Delete</a>
+    <a href="#" class="btn waves-effect green">Save</a>
+  </div>
+  {{#if isNumeric}}
+    <div class="col s12">
+      <input type="hidden" name="element_id" value="{{_id}}"/>
+      <label for="text_{{_id}}">Text</label>
+      <input type="text" id="text_{{_id}}" value="{{text}}"/>
+    </div>
+    <div class="col s7">
+      <label for="decimal_{{_id}}">Decimal Places</label>
+      <input type="text" id="decimal_{{_id}}" value="{{decimal_places}}"/>
+    </div>
+    <div class="col s3">
+      <input type="checkbox" id="required_{{_id}}" checked="{{isRequired}}"/>
+      <label for="required_{{_id}}">Required Field</label>
+    </div>
+    <div class="col s7">
+      <label for="default_{{_id}}">Default Value</label>
+      <input type="text" id="default_{{_id}}" value="{{default_value}}"/>
+    </div>
+
+    <div class="col s6">
+      <label for="min_{{_id}}">Minimum</label>
+      <input type="text" id="min_{{_id}}" value="{{minimum_value}}"/>
+    </div>
+    <div class="col s6">
+      <label for="min_{{_id}}">Maximum</label>
+      <input type="text" id="max_{{_id}}" value="{{maximum_value}}"/>
+    </div>
+    <div style="clear: both;"></div>
+  {{/if}}
+</template>
