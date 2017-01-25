@@ -144,6 +144,9 @@ if (Meteor.isClient) {
           }
           event.data.text = event.data.type;
           event.data.book_id = FlowRouter.getParam("bookId");
+          if(event.data.type == 'choice') {
+            event.data.choices = [{name: 'Choice', order: 0, default: false}]
+          }
         }
       }
     },

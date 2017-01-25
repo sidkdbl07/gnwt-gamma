@@ -3,6 +3,31 @@
     <a href="#" class="btn waves-effect red delete-element" element_id="{{_id}}">Delete</a>
     <a href="#" class="btn waves-effect green save-element" element_id="{{_id}}" element_type="{{type}}">Save</a>
   </div>
+  {{#if isChoice}}
+  <div class="col s12">
+    <label for="text_{{_id}}">Text</label>
+    <input type="text" id="text_{{_id}}" value="{{text}}"/>
+  </div>
+  <div class="col s12">
+    <input type="checkbox" id="required_{{_id}}" {{isRequired}}/>
+    <label for="required_{{_id}}">Required Field</label>
+  </div>
+  <div class="col s12">
+    {{#each choices}}
+    <div class="choice-element">
+      <div class="col s2 offset-s1">
+        <a href="#" class="btn-floating waves-effect white" ><i style="color: #8bc34a !important;" class="material-icons">arrow_upward</i></a>
+        <a href="#" class="btn-floating waves-effect white" ><i style="color: #8bc34a !important;" class="material-icons">arrow_downward</i></a>
+      </div>
+      <div class="col s6"><input type="text" value='{{name}}' /></div>
+      <div class="col s2"><input type="checkbox" name="defaultchoice" /><label>Default</label></div>
+      <div class="col s1"><a href="#" class="btn-floating waves-effect red"><i class="material-icons">delete</i></a></div>
+    </div>
+    {{/each}}
+  </div>
+  <div class="col s11 offset-s1"><a href="#" element_id="{{_id}}" class="btn waves-effect green add-choice">Add Choice</a></div>
+  <div style="clear: both;"></div>
+  {{/if}}
   {{#if isDate}}
   <div class="col s12">
     <label for="text_{{_id}}">Text</label>

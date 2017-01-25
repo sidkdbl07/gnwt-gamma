@@ -1,0 +1,11 @@
+.choice-handle > i {
+  height: 64px;
+  line-height: 64px;
+}
+
+.choice-element > div {
+  height: 64px;
+  line-height: 64px;
+  margin-bottom: 0px;
+  padding: 0px;
+}

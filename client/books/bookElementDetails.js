@@ -1,6 +1,6 @@
 Template.bookElementDetails.onRendered(function() {
   this.autorun(function(){
-    Tracker.afterFlush(function(){ 
+    Tracker.afterFlush(function(){
       $(".datepicker").pickadate({
         format: 'dd/mm/yyyy',
         selectMonths: true,
@@ -25,12 +25,21 @@ Template.bookElementDetails.helpers({
       return '';
     }
   },
+  'choices': function() {
+    return this.choices.sort(function(a,b) {
+      if(a.order > b.order) return 1;
+      if(a.order < b.order) return -1;
+    });
+  },
   'defaultToday': function() {
     if(typeof this.default_today != 'undefined' && this.default_today) {
       return 'checked';
     }else{
       return '';
     }
+  },
+  'isChoice': function() {
+    return (this.type == 'choice');
   },
   'isDate': function() {
     return (this.type == 'date');
@@ -78,6 +87,18 @@ Template.bookElementDetails.helpers({
 });
 
 Template.bookElementDetails.events({
+  'click .add-choice': function(event) {
+    event.preventDefault();
+    var elementID = $(event.target).attr('element_id');
+    if(typeof elementID == 'undefined' || elementID == "") {
+      $.publish('toast', ["Could not determine which element to add to", "Error", "error", 0]);
+      return;
+    }
+    var element = BookElements.findOne({_id: elementID});
+    var num_of_choices = element.choices.length;
+    element.choices.push({name: 'Choice', order: num_of_choices, default: false});
+    Meteor.call('editBookElement', element);
+  },
   'click .delete-element': function(event) {
     event.preventDefault();
     var elementID = $(event.target).attr('element_id');
@@ -101,6 +122,10 @@ Template.bookElementDetails.events({
       return;
     }
     var element = BookElements.findOne({_id: elementID});
+    if(elementType == "choice") {
+      element.text = $('#text_'+elementID).val();
+      element.required = (($('#required_'+elementID).is(':checked'))?true:false);
+    }
     if(elementType == "date") {
       element.text = $('#text_'+elementID).val();
       element.default_value = $('#default_'+elementID).val();
