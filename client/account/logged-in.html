@@ -4,6 +4,7 @@
   {{#if isInRole 'admin' 'default_group'}}
   <p>As an Administrator, you can perform the following functions:
   <ul>
+    <li><a href="{{pathFor '/books'}}" class="blue-text" >View Books</a></li>
     <li><a href="{{pathFor '/users'}}" class="blue-text" >Manage Users</a></li>
     <li><a href="{{pathFor '/buildings'}}" class="blue-text" >Manage Buildings</a></li>
     <li><a href="{{pathFor '/regions'}}" class="blue-text" >Manage Regions</a></li>

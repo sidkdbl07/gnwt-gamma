@@ -25,6 +25,18 @@ if (Meteor.isClient) {
   });
 
   Template.bookEdit.events({
+    'click .bookelement': function(event) {
+      event.preventDefault();
+      $('.bookelement').removeClass('selected');
+      $('#'+event.target.id).addClass('selected');
+      if($("#details_"+event.target.id).hasClass('inactive')) {
+        $(".bookelementdetails").addClass('inactive');
+        $("#details_"+event.target.id).removeClass('inactive');
+      }else{
+        $('#'+event.target.id).removeClass('selected');
+        $("#details_"+event.target.id).addClass('inactive');
+      }
+    },
     'click #save_book': function (event) {
       event.preventDefault();
       var bookID = $('#edit_book_id').val();
@@ -84,15 +96,18 @@ if (Meteor.isClient) {
               {name: "Date", type: "date", order:1},
               {name: "Numeric", type: "numeric", order: 2},
               {name: "Photo", type: "photo", order: 3},
-              {name: "Yes/No", type:"yesno", order: 4}];
+              {name: "Text", type: "text", order: 4},
+              {name: "Yes/No", type:"yesno", order: 5}];
     },
     bookMapTypes: function() {
       return [{name: "Point", type: "point", order: 0},
               {name: "Line", type: "line", order: 1},
               {name: "Polygon", type: "poly", order: 2}];
     },
-    bookOtherTypes: function() {
-      return [{name: "Page Break", type: "page", icon: "more_horiz", order: 0}];
+    bookLayoutTypes: function() {
+      return [{name: "Group", type: "group", order: 0},
+              {name: "Page Break", type: "page", order: 1},
+              {name: "Text/Comment", type: "textcomment", order: 2}];
     },
     bookElementTypesOptions: function() {
       return {
@@ -118,10 +133,15 @@ if (Meteor.isClient) {
           pull: false,
           put: ['bookElementTypes']
         },
+        handle: ".handle",
         sort: true,
         onAdd: function(event) {
           delete event.data._id;
           delete event.data.name;
+          if(!event.data.type) {
+            $.publish('toast', ["There was a problem copying the element.", "Error", "error", 0]);
+            return;
+          }
           event.data.text = event.data.type;
           event.data.book_id = FlowRouter.getParam("bookId");
         }
@@ -130,13 +150,16 @@ if (Meteor.isClient) {
     icon: function(type) {
       if(type == 'choice') return "check_circle";
       if(type == 'date') return "event_note";
+      if(type == 'group') return "filter_none";
       if(type == 'line') return "remove";
       if(type == 'numeric') return "looks_one";
-      if(type == 'photo') return "photo_camera";
-      if(type == 'yesno') return "iso";
       if(type == 'page') return "more_horiz";
+      if(type == 'photo') return "photo_camera";
       if(type == 'point') return "place";
       if(type == 'poly') return "check_box_outline_blank";
+      if(type == 'text') return "title";
+      if(type == 'textcomment') return "subject";
+      if(type == 'yesno') return "done";
     }
   });
 

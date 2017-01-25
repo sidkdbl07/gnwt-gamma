@@ -1,17 +1,25 @@
+.bookelement.selected {
+  background-color: #e0e0e0;
+}
+
+.bookelementdetails.inactive {
+  display: none;
+}
+
 .element {
   border: 1px solid #dcdcdc;
-  height: 35px;
+  /*height: 35px;*/
   line-height: 35px;
   margin: 1px;
   cursor: pointer;
 }
 
-.element > i {
+.bookelement > i, .element > i {
   vertical-align: middle;
   margin: 3px 10px 3px 3px;
 }
 
-.element.page {
+.element.page, .element.group {
   margin-top: 20px;
 }
 

@@ -55,29 +55,32 @@
   <div class="row">
     <div class="col s2">
       <div class="grey-text" style="margin-top: 20px;">Question Types</div>
-      <div class="sortable list-group">
+      <div class="sortable">
       {{#sortable items=bookElementTypes options=bookElementTypesOptions}}
-        <div class="list-group-item element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
+        <div class="element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
       {{/sortable}}
       </div>
       <div class="grey-text" style="margin-top: 20px;">Map Types</div>
-      <div class="sortable list-group">
+      <div class="sortable">
       {{#sortable items=bookMapTypes options=bookElementTypesOptions}}
-        <div class="list-group-item element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
+        <div class="element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
       {{/sortable}}
       </div>
-      <div class="grey-text" style="margin-top: 20px;">Other</div>
-      <div class="sortable list-group">
-      {{#sortable items=bookOtherTypes options=bookElementTypesOptions}}
-        <div class="list-group-item element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
+      <div class="grey-text" style="margin-top: 20px;">Layout</div>
+      <div class="sortable">
+      {{#sortable items=bookLayoutTypes options=bookElementTypesOptions}}
+        <div class="element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
       {{/sortable}}
       </div>
     </div>
     <div class="col s10">
       <div class="grey-text" style="margin-top: 20px;">Elements</div>
-      <div class="sortable list-group">
+      <div class="sortable">
       {{#sortable items=bookElements options=bookElementsOptions}}
-        <div class="list-group-item element {{type}}"><i class="material-icons">{{icon type}}</i>{{text}}</div>
+        <div class="element {{type}}" >
+          <div class="bookelement" id={{_id}}><i class="material-icons grey-text handle">drag_handle</i><i class="material-icons">{{icon type}}</i>{{text}}</div>
+          <div id="details_{{_id}}" class="bookelementdetails inactive grey lighten-2">{{> bookElementDetails}}</div>
+        </div>
       {{/sortable}}
       </div>
     </div>

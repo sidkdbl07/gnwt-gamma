@@ -38,6 +38,7 @@ if (Meteor.isClient) {
     codes: function() {
       //console.log(getRoofType()); // uncomment to test reactivity of codes
       var c = Regions.findOne().snow_load_factors.codes;
+
       c.sort(function(a,b) { // sort by year, then by importance
         var key1A = new Date(a.year),
             key1B = new Date(b.year);
