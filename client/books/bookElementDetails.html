@@ -12,15 +12,15 @@
     <input type="checkbox" id="required_{{_id}}" {{isRequired}}/>
     <label for="required_{{_id}}">Required Field</label>
   </div>
-  <div class="col s12">
-    {{#each choices}}
-    <div class="choice-element">
+  <div class="col s12" id="choices_{{_id}}">
+    {{#each choices _id}}
+    <div class="choice-element" order="{{order}}">
       <div class="col s2 offset-s1">
         <a href="#" class="btn-floating waves-effect white" ><i style="color: #8bc34a !important;" class="material-icons">arrow_upward</i></a>
         <a href="#" class="btn-floating waves-effect white" ><i style="color: #8bc34a !important;" class="material-icons">arrow_downward</i></a>
       </div>
-      <div class="col s6"><input type="text" value='{{name}}' /></div>
-      <div class="col s2"><input type="checkbox" name="defaultchoice" /><label>Default</label></div>
+      <div class="col s6"><input class="choice-name" type="text" value='{{name}}' /></div>
+      <div class="col s2"><input class="choice-default" id="default_{{elementId}}_{{order}}" type="checkbox" {{isDefaultChoice}}/><label for="default_{{elementId}}_{{order}}">Default</label></div>
       <div class="col s1"><a href="#" class="btn-floating waves-effect red"><i class="material-icons">delete</i></a></div>
     </div>
     {{/each}}

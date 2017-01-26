@@ -38,11 +38,21 @@ Template.bookElementDetails.helpers({
       return '';
     }
   },
+  'elementId': function() {
+    return Template.parentData(1)._id;
+  },
   'isChoice': function() {
     return (this.type == 'choice');
   },
   'isDate': function() {
     return (this.type == 'date');
+  },
+  'isDefaultChoice': function() {
+    if(this.default == true) {
+      return 'checked';
+    }else{
+      return '';
+    }
   },
   'isDefaultNone': function() {
     if(typeof this.default_value != 'undefined' || !this.default_value || this.default_value == "None") {
@@ -125,6 +135,15 @@ Template.bookElementDetails.events({
     if(elementType == "choice") {
       element.text = $('#text_'+elementID).val();
       element.required = (($('#required_'+elementID).is(':checked'))?true:false);
+      var choices = [];
+      $('#choices_'+elementID).children('div.choice-element').each(function() {
+        //console.log($($(this).find('input.choice-name')[0]).val());
+        choices.push({name: $($(this).find('input.choice-name')[0]).val(),
+                      order: $(this).attr('order'),
+                      default: (($($(this).find('input.choice-default')[0]).is(':checked'))?true:false)
+        });
+      });
+      element.choices = choices;
     }
     if(elementType == "date") {
       element.text = $('#text_'+elementID).val();
