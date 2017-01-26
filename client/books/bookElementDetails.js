@@ -94,6 +94,15 @@ Template.bookElementDetails.helpers({
   'isYesNo': function() {
     return (this.type == 'yesno');
   },
+  'sortChoiceDownEnabled': function() {
+    var element = BookElements.findOne({_id: Template.parentData(1)._id});
+    if(this.order == (element.choices.length - 1)) return 'disabled';
+    return '';
+  },
+  'sortChoiceUpEnabled': function() {
+    if(this.order == 0) return 'disabled';
+    return '';
+  }
 });
 
 Template.bookElementDetails.events({
@@ -109,6 +118,30 @@ Template.bookElementDetails.events({
     element.choices.push({name: 'Choice', order: num_of_choices, default: false});
     Meteor.call('editBookElement', element);
   },
+  'click .choiceDelete': function(event) {
+    event.preventDefault();
+    var elementID = $(event.target).closest('div.choice-element').attr('element_id');
+    var element = BookElements.findOne({_id: elementID});
+    var choices = element.choices.sort(function(a,b) {
+      if(parseInt(a.order)>parseInt(b.order)) return 1;
+      return -1;
+    });
+    var currentOrder = parseInt($(event.target).closest('div.choice-element').attr('order'));
+    var choiceRemoved = false;
+    for(var i=0; i<choices.length; i++) {
+      if(parseInt(choices[i].order) == currentOrder && choiceRemoved == false) {
+        choices.splice(i,1);
+        i--;
+        choiceRemoved = true;
+        continue;
+      }
+      if(choiceRemoved) { // we need to decrement all choice that occur after the splice
+        choices[i].order = parseInt(choices[i].order) - 1;
+      }
+    }
+    element.choices = choices;
+    Meteor.call('editBookElement', element);
+  },
   'click .delete-element': function(event) {
     event.preventDefault();
     var elementID = $(event.target).attr('element_id');
@@ -118,6 +151,48 @@ Template.bookElementDetails.events({
     }
     Meteor.call('removeBookElement', elementID);
     $.publish('toast', ["Book element deleted", "Success", "success", 0]);
+  },
+  'click .sortChoiceDown': function(event) {
+    event.preventDefault();
+    var elementID = $(event.target).closest('div.choice-element').attr('element_id');
+    var element = BookElements.findOne({_id: elementID});
+    var choices = element.choices.sort(function(a,b) {
+      if(parseInt(a.order)>parseInt(b.order)) return 1;
+      return -1;
+    });
+    var currentOrder = parseInt($(event.target).closest('div.choice-element').attr('order'));
+    if(currentOrder == (choices.length - 1))
+      return; // you are already the last element
+    for(var i=0; i<choices.length; i++) {
+      if(parseInt(choices[i].order) == currentOrder) {
+        choices[i].order = parseInt(choices[i].order) + 1;
+        choices[i+1].order = parseInt(choices[i+1].order) - 1;
+        break;
+      }
+    }
+    element.choices = choices;
+    Meteor.call('editBookElement', element);
+  },
+  'click .sortChoiceUp': function(event) {
+    event.preventDefault();
+    var elementID = $(event.target).closest('div.choice-element').attr('element_id');
+    var element = BookElements.findOne({_id: elementID});
+    var choices = element.choices.sort(function(a,b) {
+      if(parseInt(a.order)>parseInt(b.order)) return 1;
+      return -1;
+    });
+    var currentOrder = parseInt($(event.target).closest('div.choice-element').attr('order'));
+    if(currentOrder == 0)
+      return; // you are already the first element
+    for(var i=0; i<choices.length; i++) {
+      if(parseInt(choices[i].order) == currentOrder) {
+        choices[i].order = parseInt(choices[i].order) - 1;
+        choices[i-1].order = parseInt(choices[i-1].order) + 1;
+        break;
+      }
+    }
+    element.choices = choices;
+    Meteor.call('editBookElement', element);
   },
   'click .save-element': function(event) {
     event.preventDefault();
