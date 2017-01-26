@@ -4,7 +4,36 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 
 if (Meteor.isClient) {
+  Meteor.autorun(function () {
+    var stat;
+    if (Meteor.status().status === "connected") {
+        stat = 'online'
+    }
+    else if (Meteor.status().status === "connecting") {
+        stat = 'connecting'
+    }
+    else {
+        stat = 'offline';
+    }
+    Session.set('status',stat);
+  });
+
   Template.header.helpers({
+    networkStatus: function() {
+      return Session.get('status');
+    },
+    networkStatusIcon: function() {
+      if(Session.get('status') == 'online') return 'wifi_tethering';
+      if(Session.get('status') == 'connecting') return 'more_horiz';
+      if(Session.get('status') == 'offline') return 'portable_wifi_off';
+      return 'help';
+    },
+    networkStatusColor: function() {
+      if(Session.get('status') == 'online') return 'light-green';
+      if(Session.get('status') == 'connecting') return 'amber';
+      if(Session.get('status') == 'offline') return 'red';
+      return 'white';
+    },
     routeName: function () {
       return FlowRouter.getRouteName();
     }

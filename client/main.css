@@ -15,6 +15,14 @@ html, body {
   overflow-y: auto;
 }
 
+.network-status {
+  text-transform: capitalize;
+}
+
+i.network-status-icon {
+  margin-right: 5px !important;
+}
+
 .nowrap {
   overflow:hidden;
   white-space: nowrap;

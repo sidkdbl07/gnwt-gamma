@@ -6,7 +6,9 @@
 <template name="header">
   <nav>
     <div class="nav-wrapper blue">
-
+      <ul class="right hide-on-med-and-down">
+        <li><span class="{{networkStatusColor}}-text"><i class="material-icons right network-status-icon">{{networkStatusIcon}}</i><span class="network-status">{{networkStatus}}</span></span></li>
+      </ul>
     </div>
   </nav>
   {{#if currentUser}}
