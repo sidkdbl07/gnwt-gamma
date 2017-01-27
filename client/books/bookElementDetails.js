@@ -91,6 +91,9 @@ Template.bookElementDetails.helpers({
   'isText': function() {
     return (this.type == 'text');
   },
+  'isTextComment': function() {
+    return (this.type == 'textcomment');
+  },
   'isYesNo': function() {
     return (this.type == 'yesno');
   },
@@ -247,6 +250,9 @@ Template.bookElementDetails.events({
       element.text = $('#text_'+elementID).val();
       element.placeholder = $('#placeholder_'+elementID).val();
       element.required = (($('#required_'+elementID).is(':checked'))?true:false);
+    }
+    if(elementType == "textcomment") {
+      element.text = $('#text_'+elementID).val();
     }
     if(elementType == "yesno") {
       element.text = $('#text_'+elementID).val();

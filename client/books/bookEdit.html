@@ -78,7 +78,7 @@
       <div class="sortable">
       {{#sortable items=bookElements options=bookElementsOptions}}
         <div class="element {{type}}" >
-          <div class="bookelement" id={{_id}}><i class="material-icons grey-text handle">drag_handle</i><i class="material-icons">{{icon type}}</i>{{text}}</div>
+          <div class="bookelement" id={{_id}}><i class="material-icons grey-text handle item">drag_handle</i><i class="material-icons item">{{icon type}}</i><span class="truncate item">{{text}}</span></div>
           <div id="details_{{_id}}" class="bookelementdetails inactive grey lighten-2">{{> bookElementDetails}}</div>
         </div>
       {{/sortable}}

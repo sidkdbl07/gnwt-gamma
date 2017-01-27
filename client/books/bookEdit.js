@@ -9,12 +9,16 @@ if (Meteor.isClient) {
   });
 
   Template.bookEdit.onRendered(function() {
-    $(".dropdown-button").dropdown({
-      constrain_width: true,
-      hover: false, // Activate on hover
-      gutter: 10, // Spacing from edge
-      belowOrigin: true, // Displays dropdown below the button
-      alignment: 'left' // Displays dropdown with edge aligned to the left of button
+    this.autorun(function(){
+      Tracker.afterFlush(function(){
+        $(".dropdown-button").dropdown({
+          constrain_width: true,
+          hover: false, // Activate on hover
+          gutter: 10, // Spacing from edge
+          belowOrigin: true, // Displays dropdown below the button
+          alignment: 'left' // Displays dropdown with edge aligned to the left of button
+        });
+      });
     });
   });
 
@@ -25,8 +29,12 @@ if (Meteor.isClient) {
   });
 
   Template.bookEdit.events({
-    'click .bookelement': function(event) {
+    'click .bookelement .item': function(event) {
       event.preventDefault();
+      if($(event.target).hasClass('handle')) {
+        console.log("This is a handle");
+        return;
+      }
       $('.bookelement').removeClass('selected');
       $('#'+event.target.id).addClass('selected');
       if($("#details_"+event.target.id).hasClass('inactive')) {
@@ -102,12 +110,11 @@ if (Meteor.isClient) {
     bookMapTypes: function() {
       return [{name: "Point", type: "point", order: 0},
               {name: "Line", type: "line", order: 1},
-              {name: "Polygon", type: "poly", order: 2}];
+              {name: "Arrow", type: "arrow", order: 2},
+              {name: "Polygon", type: "poly", order: 3}];
     },
     bookLayoutTypes: function() {
-      return [{name: "Group", type: "group", order: 0},
-              {name: "Page Break", type: "page", order: 1},
-              {name: "Text/Comment", type: "textcomment", order: 2}];
+      return [{name: "Text/Comment", type: "textcomment", order: 0}];
     },
     bookElementTypesOptions: function() {
       return {
@@ -151,6 +158,7 @@ if (Meteor.isClient) {
       }
     },
     icon: function(type) {
+      if(type == 'arrow') return "arrow_forward";
       if(type == 'choice') return "check_circle";
       if(type == 'date') return "event_note";
       if(type == 'group') return "filter_none";

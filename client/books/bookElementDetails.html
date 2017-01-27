@@ -5,6 +5,7 @@
   </div>
   {{#if isChoice}}
   <div class="col s12">
+    <div style="float: right;" class="grey-text">Note: Adding and deleting choices, and sorting functions are auto-saved.</div>
     <label for="text_{{_id}}">Text</label>
     <input type="text" id="text_{{_id}}" value="{{text}}"/>
   </div>
@@ -111,6 +112,13 @@
   <div class="col s3">
     <input type="checkbox" id="required_{{_id}}" {{isRequired}}/>
     <label for="required_{{_id}}">Required Field</label>
+  </div>
+  <div style="clear: both;"></div>
+  {{/if}}
+  {{#if isTextComment}}
+  <div class="col s12">
+    <label for="text_{{_id}}">Text</label>
+    <input type="text" id="text_{{_id}}" value="{{text}}"/>
   </div>
   <div style="clear: both;"></div>
   {{/if}}
