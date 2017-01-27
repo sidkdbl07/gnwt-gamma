@@ -29,20 +29,38 @@ if (Meteor.isClient) {
   });
 
   Template.bookEdit.events({
-    'click .bookelement .item': function(event) {
+    'click span.book-element-item': function(event) {
       event.preventDefault();
       if($(event.target).hasClass('handle')) {
         console.log("This is a handle");
         return;
       }
+      var bookelement = $(event.target).parent('.bookelement')[0];
       $('.bookelement').removeClass('selected');
-      $('#'+event.target.id).addClass('selected');
-      if($("#details_"+event.target.id).hasClass('inactive')) {
+      $(bookelement).addClass('selected');
+      if($("#details_"+bookelement.id).hasClass('inactive')) {
         $(".bookelementdetails").addClass('inactive');
-        $("#details_"+event.target.id).removeClass('inactive');
+        $("#details_"+bookelement.id).removeClass('inactive');
       }else{
-        $('#'+event.target.id).removeClass('selected');
-        $("#details_"+event.target.id).addClass('inactive');
+        $('#'+bookelement.id).removeClass('selected');
+        $("#details_"+bookelement.id).addClass('inactive');
+      }
+    },
+    'click span.book-element-group-item': function(event) {
+      event.preventDefault();
+      if($(event.target).hasClass('handle')) {
+        console.log("This is a handle");
+        return;
+      }
+      var bookelementgroup = $(event.target).parent('.bookelement-group')[0];
+      $('.bookelement-group').removeClass('selected');
+      $(bookelementgroup).addClass('selected');
+      if($("#details_"+bookelementgroup.id).hasClass('inactive')) {
+        $(".elementgroupdetails").addClass('inactive');
+        $("#details_"+bookelementgroup.id).removeClass('inactive');
+      }else{
+        $('#'+bookelementgroup.id).removeClass('selected');
+        $("#details_"+bookelementgroup.id).addClass('inactive');
       }
     },
     'click #save_book': function (event) {
@@ -107,13 +125,7 @@ if (Meteor.isClient) {
               {name: "Text", type: "text", order: 4},
               {name: "Yes/No", type:"yesno", order: 5}];
     },
-    bookMapTypes: function() {
-      return [{name: "Point", type: "point", order: 0},
-              {name: "Line", type: "line", order: 1},
-              {name: "Arrow", type: "arrow", order: 2},
-              {name: "Polygon", type: "poly", order: 3}];
-    },
-    bookLayoutTypes: function() {
+    bookOtherTypes: function() {
       return [{name: "Text/Comment", type: "textcomment", order: 0}];
     },
     bookElementTypesOptions: function() {
@@ -158,16 +170,10 @@ if (Meteor.isClient) {
       }
     },
     icon: function(type) {
-      if(type == 'arrow') return "arrow_forward";
       if(type == 'choice') return "check_circle";
       if(type == 'date') return "event_note";
-      if(type == 'group') return "filter_none";
-      if(type == 'line') return "remove";
       if(type == 'numeric') return "looks_one";
-      if(type == 'page') return "more_horiz";
       if(type == 'photo') return "photo_camera";
-      if(type == 'point') return "place";
-      if(type == 'poly') return "check_box_outline_blank";
       if(type == 'text') return "title";
       if(type == 'textcomment') return "subject";
       if(type == 'yesno') return "done";
@@ -175,3 +181,66 @@ if (Meteor.isClient) {
   });
 
 }
+
+
+Template.elementGroups.helpers({
+  elementGroups: function() {
+    return ElementGroups.find({}, {sort: {order:1}});
+  },
+  elementGroupTypes: function() {
+    return [{name: "General", type: "group", order: 0},
+            {name: "Point", type: "point", order: 1},
+            {name: "Line", type: "line", order: 2},
+            {name: "Arrow", type: "arrow", order: 3},
+            {name: "Polygon", type: "poly", order: 4}];
+  },
+  elementGroupTypesOptions: function() {
+    return {
+      sortField: 'order',
+      animation: 100,
+      group: {
+        name: 'elementGroupTypes',
+        pull: 'clone',
+        put: false
+      },
+      sort: false
+    }
+  },
+  elementGroupOptions: function() {
+    return {
+      sortField: 'order',
+      animation: 100,
+      group: {
+        name: 'bookElementGroups',
+        pull: false,
+        put: ['elementGroupTypes']
+      },
+      handle: ".handle",
+      sort: true,
+      onAdd: function(event) {
+        delete event.data._id;
+        delete event.data.name;
+        if(!event.data.type) {
+          $.publish('toast', ["There was a problem copying the section.", "Error", "error", 0]);
+          return;
+        }
+        event.data.text = event.data.type;
+        event.data.allow_multiple = false;
+        event.data.book_id = FlowRouter.getParam("bookId");
+      }
+    }
+  },
+  icon: function(type) {
+    if(type == 'arrow') return "arrow_forward";
+    if(type == 'group') return "filter_none";
+    if(type == 'line') return "remove";
+    if(type == 'point') return "place";
+    if(type == 'poly') return "check_box_outline_blank";
+  }
+});
+
+Template.elementGroups.events({
+  "click #foo": function(event, template){
+
+  }
+});

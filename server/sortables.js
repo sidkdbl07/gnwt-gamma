@@ -1,3 +1,3 @@
 import "/lib/collections.js";
 
-Sortable.collections = ["BookElements"];
+Sortable.collections = ["BookElements","ElementGroups"];

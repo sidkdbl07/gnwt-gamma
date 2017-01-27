@@ -10,31 +10,36 @@
   {{#if isSubReady 'book'}}
     {{#with getBook}}
     <div style="position: absolute; top: 78px; right: 10%;">
-      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>ELEMENTS</a>
+      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>BOOK DETAILS</a>
       <ul id="view_type" class="dropdown-content">
         <li><a id="btn_book_details" href="#" class="green-text">BOOK DETAILS</a></li>
         <li><a id="btn_book_elements" href="#" class="green-text">ELEMENTS</a></li>
         <li><a id="btn_book_rules" href="#" class="green-text">RULES</a></li>
       </ul>
     </div>
-    <div class="row book-view" id="book_elements">
+    <div class="row book-view" id="book_elements" style="display: none;">
       <div class="col s12">
         {{> bookElements}}
       </div>
     </div>
-    <div class="book-view" id="book_details" style="display: none;">
+    <div class="book-view" id="book_details">
       {{#if isInRole 'admin' 'default_group'}}
       <div style="position: absolute; top: 78px; right: 2%;">
         <a href="#" id="save_book" style="margin-left: 20px;" class="btn waves-effect waves-light light-green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save book">Save</a>
       </div>
       {{/if}}
       <div class="row">
-        <div class="col s5">
-          <div class="row">
-            <div class="input-field col s12">
+        <div class="col s12">
+          <div class="row" style="margin-top: 20px;">
+            <div class="input-field col s5">
               <input type="hidden" id="edit_book_id" name="edit_book_id" value="{{_id}}"/>
               <input type="text" placeholder="Enter the name of the book" id="edit_book_name" name="edit_book_name" class="validate" value="{{name}}"/>
               <label for="edit_book_name" class="active" >Name of Book</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              {{> elementGroups}}
             </div>
           </div>
         </div>
@@ -54,21 +59,15 @@
 <template name="bookElements">
   <div class="row">
     <div class="col s2">
-      <div class="grey-text" style="margin-top: 20px;">Question Types</div>
+      <div class="grey-text" style="margin-top: 20px;">Question Elements</div>
       <div class="sortable">
       {{#sortable items=bookElementTypes options=bookElementTypesOptions}}
         <div class="element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
       {{/sortable}}
       </div>
-      <div class="grey-text" style="margin-top: 20px;">Map Types</div>
+      <div class="grey-text" style="margin-top: 20px;">Other Elements</div>
       <div class="sortable">
-      {{#sortable items=bookMapTypes options=bookElementTypesOptions}}
-        <div class="element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
-      {{/sortable}}
-      </div>
-      <div class="grey-text" style="margin-top: 20px;">Layout</div>
-      <div class="sortable">
-      {{#sortable items=bookLayoutTypes options=bookElementTypesOptions}}
+      {{#sortable items=bookOtherTypes options=bookElementTypesOptions}}
         <div class="element"><i class="material-icons">{{icon type}}</i>{{name}}</div>
       {{/sortable}}
       </div>
@@ -78,16 +77,35 @@
       <div class="sortable">
       {{#sortable items=bookElements options=bookElementsOptions}}
         <div class="element {{type}}" >
-          <div class="bookelement" id={{_id}}><i class="material-icons grey-text handle item">drag_handle</i><i class="material-icons item">{{icon type}}</i><span class="truncate item">{{text}}</span></div>
+          <div class="bookelement" id={{_id}}><i class="material-icons grey-text handle book-elment-item">drag_handle</i><i class="material-icons book-elment-item">{{icon type}}</i><span class="truncate book-elment-item">{{text}}</span></div>
           <div id="details_{{_id}}" class="bookelementdetails inactive grey lighten-2">{{> bookElementDetails}}</div>
         </div>
       {{/sortable}}
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col s3">
+</template>
 
+<template name="elementGroups">
+  <div class="row">
+    <div class="col s2">
+      <div class="grey-text" style="margin-top: 20px;">Section Types</div>
+      <div class="sortable">
+      {{#sortable items=elementGroupTypes options=elementGroupTypesOptions}}
+        <div class="element-group"><i class="material-icons">{{icon type}}</i>{{name}}</div>
+      {{/sortable}}
+      </div>
+    </div>
+    <div class="col s10">
+      <div class="grey-text" style="margin-top: 20px;">Book Sections</div>
+      <div class="sortable">
+      {{#sortable items=elementGroups options=elementGroupOptions}}
+        <div class="element-group {{type}}" >
+          <div class="bookelement-group" id={{_id}}><i class="material-icons grey-text handle book-element-group-item">drag_handle</i><i class="material-icons book-element-group-item">{{icon type}}</i><span class="truncate book-element-group-item">{{text}}</span></div>
+          <div id="details_{{_id}}" class="elementgroupdetails inactive grey lighten-2">{{> elementGroupDetails}}</div>
+        </div>
+      {{/sortable}}
+      </div>
     </div>
   </div>
 </template>

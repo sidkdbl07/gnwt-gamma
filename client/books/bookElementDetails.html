@@ -56,6 +56,13 @@
   </div>
   <div style="clear: both;"></div>
   {{/if}}
+  {{#if isGroup}}
+  <div class="col s12">
+    <label for="text_{{_id}}">Text</label>
+    <input type="text" id="text_{{_id}}" value="{{text}}"/>
+  </div>
+  <div style="clear: both;"></div>
+  {{/if}}
   {{#if isNumeric}}
     <div class="col s12">
       <label for="text_{{_id}}">Text</label>

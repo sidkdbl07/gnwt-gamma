@@ -35,10 +35,21 @@ Meteor.startup(() => {
     var snowAndIceBook = Books.insert({name: "Snow and Ice Measurements"});
     var permafrostBook = Books.insert({name: "Permafrost"});
   }
+  if(ElementGroups.find().count() == 0) {
+    var roofGroup = ElementGroups.insert({text: "Group 1", order: 0, type: 'group', book_id: roofsBook});
+    var buildingUseGroup = ElementGroups.insert({text: "Group 1", order: 0, type: 'group', book_id: buildingUseBook});
+    var deteriorationGroup = ElementGroups.insert({text: "Group 1", order: 0, type: 'group', book_id: deteriorationBook});
+    var fallingSnowGroup = ElementGroups.insert({text: "Group 1", order: 0, type: 'group', book_id: fallingSnowBook});
+    var snowAndIceGroup = ElementGroups.insert({text: "Group 1", order: 0, type: 'group', book_id: snowAndIceBook});
+    var permafrostGroup = ElementGroups.insert({text: "Group 1", order: 0, type: 'group', book_id: permafrostBook});
+  }
   if(BookElements.find().count() == 0) {
-    BookElements.insert({text: "What is your sex?", order: 0, type: 'choice', book_id: buildingUseBook});
-    BookElements.insert({text: "What is your age?", order: 1, type: 'numeric', book_id: buildingUseBook});
-    BookElements.insert({text: "What is your preference?", order: 2, type: 'choice', book_id: buildingUseBook});
+    BookElements.insert({text: "Text 1", order: 0, type: 'textcomment', book_id: roofsBook, group_id: roofGroup});
+    BookElements.insert({text: "Text 1", order: 0, type: 'textcomment', book_id: buildingUseBook, group_id: buildingUseGroup});
+    BookElements.insert({text: "Text 1", order: 0, type: 'textcomment', book_id: deteriorationBook, group_id: deteriorationGroup});
+    BookElements.insert({text: "Text 1", order: 0, type: 'textcomment', book_id: fallingSnowBook, group_id: fallingSnowGroup});
+    BookElements.insert({text: "Text 1", order: 0, type: 'textcomment', book_id: snowAndIceBook, group_id: snowAndIceGroup});
+    BookElements.insert({text: "Text 1", order: 0, type: 'textcomment', book_id: permafrostBook, group_id: permafrostGroup});
   }
 
   ////////////////////////////////

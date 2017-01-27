@@ -5,6 +5,10 @@ Meteor.publish('singleBookElements', function (bookId) {
   var be = BookElements.find({ book_id: bookId });
   return be;
 });
+Meteor.publish('singleBookElementGroups', function (bookId) {
+  var eg = ElementGroups.find({ book_id: bookId });
+  return eg;
+});
 Meteor.publish('singleBuilding', function (buildingId) {
   return Buildings.find({ _id: buildingId });
 });

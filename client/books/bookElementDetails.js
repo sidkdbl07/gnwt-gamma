@@ -75,6 +75,9 @@ Template.bookElementDetails.helpers({
       return '';
     }
   },
+  'isGroup': function() {
+    return (this.type == 'group');
+  },
   'isNumeric': function() {
     return (this.type == 'numeric');
   },
@@ -231,6 +234,9 @@ Template.bookElementDetails.events({
       element.minimum_value = $('#min_'+elementID).val();
       element.maximum_value = $('#max_'+elementID).val();
       element.required = (($('#required_'+elementID).is(':checked'))?true:false);
+    }
+    if(elementType == "group") {
+      element.text = $('#text_'+elementID).val();
     }
     if(elementType == "numeric") {
       element.text = $('#text_'+elementID).val();

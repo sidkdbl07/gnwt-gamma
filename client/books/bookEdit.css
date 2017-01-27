@@ -1,27 +1,27 @@
-.bookelement {
+.bookelement, .bookelement-group {
   white-space: nowrap;
 }
 
-.bookelement > .item {
+.bookelement > .book-element-item, .bookelement-group > .book-element-group-item {
   display: inline-block;
   vertical-align: middle;
   height: 35px;
   line-height: 35px;
 }
 
-span.item {
+span.book-element-item, span.book-element-group-item {
   width: calc(100% - 75px);
 }
 
-.bookelement.selected {
+.bookelement.selected, .bookelement-group.selected {
   background-color: #e0e0e0;
 }
 
-.bookelementdetails.inactive {
+.bookelementdetails.inactive, .elementgroupdetails.inactive {
   display: none;
 }
 
-.element {
+.element, .element-group {
   border: 1px solid #dcdcdc;
   /*height: 35px;*/
   line-height: 35px;
@@ -29,7 +29,7 @@ span.item {
   cursor: pointer;
 }
 
-.bookelement > i, .element > i {
+.bookelement > i, .element > i, .element-group > i, .bookelement-group > i {
   vertical-align: middle;
   margin: 0px 10px 0px 3px;
 }
