@@ -24,7 +24,7 @@ if (Meteor.isClient) {
 
   Template.bookEdit.helpers({
     getBook: function () {
-      return Books.findOne();
+      return Books.findOne({_id: FlowRouter.getParam('bookId')});
     }
   });
 
@@ -141,7 +141,9 @@ if (Meteor.isClient) {
       }
     },
     bookElements: function() {
-      return BookElements.find({}, {sort: {order:1}});
+      var group_id = $(this)[0]._id;
+      //console.log(group_id);
+      return BookElements.find({group_id: group_id}, {sort: {order:1}});
     },
     bookElementsOptions: function() {
       return {
@@ -149,8 +151,8 @@ if (Meteor.isClient) {
         animation: 100,
         group: {
           name: 'bookElements',
-          pull: false,
-          put: ['bookElementTypes']
+          pull: true,
+          put: ['bookElements','bookElementTypes']
         },
         handle: ".handle",
         sort: true,
@@ -163,11 +165,17 @@ if (Meteor.isClient) {
           }
           event.data.text = event.data.type;
           event.data.book_id = FlowRouter.getParam("bookId");
+          var item = event.item;
+          var group_id = $(item).closest('.sortable').attr('group_id');
+          event.data.group_id = group_id;
           if(event.data.type == 'choice') {
             event.data.choices = [{name: 'Choice', order: 0, default: false}]
           }
         }
       }
+    },
+    elementGroups: function() {
+      return ElementGroups.find({book_id: this._id}, {sort: {order: 1}}).fetch();
     },
     icon: function(type) {
       if(type == 'choice') return "check_circle";
@@ -185,7 +193,7 @@ if (Meteor.isClient) {
 
 Template.elementGroups.helpers({
   elementGroups: function() {
-    return ElementGroups.find({}, {sort: {order:1}});
+    return ElementGroups.find({book_id: this._id}, {sort: {order:1}});
   },
   elementGroupTypes: function() {
     return [{name: "General", type: "group", order: 0},
@@ -227,7 +235,12 @@ Template.elementGroups.helpers({
         event.data.text = event.data.type;
         event.data.allow_multiple = false;
         event.data.book_id = FlowRouter.getParam("bookId");
-      }
+      }/*,
+      onEnd: function(event) {
+        console.log("book: "+event.data.book_id);
+        console.log("group: "+event.data._id);
+        Meteor.call('addBookElement', {text: "Text 1", order: 0, type: 'textcomment', book_id: event.data.book_id, group_id: event.data._id});
+      }*/
     }
   },
   icon: function(type) {

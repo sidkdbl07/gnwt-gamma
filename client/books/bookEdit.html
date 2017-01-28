@@ -10,19 +10,19 @@
   {{#if isSubReady 'book'}}
     {{#with getBook}}
     <div style="position: absolute; top: 78px; right: 10%;">
-      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>BOOK DETAILS</a>
+      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>ELEMENTS</a>
       <ul id="view_type" class="dropdown-content">
         <li><a id="btn_book_details" href="#" class="green-text">BOOK DETAILS</a></li>
         <li><a id="btn_book_elements" href="#" class="green-text">ELEMENTS</a></li>
         <li><a id="btn_book_rules" href="#" class="green-text">RULES</a></li>
       </ul>
     </div>
-    <div class="row book-view" id="book_elements" style="display: none;">
+    <div class="row book-view" id="book_elements">
       <div class="col s12">
         {{> bookElements}}
       </div>
     </div>
-    <div class="book-view" id="book_details">
+    <div class="book-view" id="book_details" style="display: none;">
       {{#if isInRole 'admin' 'default_group'}}
       <div style="position: absolute; top: 78px; right: 2%;">
         <a href="#" id="save_book" style="margin-left: 20px;" class="btn waves-effect waves-light light-green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save book">Save</a>
@@ -73,15 +73,17 @@
       </div>
     </div>
     <div class="col s10">
-      <div class="grey-text" style="margin-top: 20px;">Elements</div>
-      <div class="sortable">
+      {{#each elementGroups}}
+      <div class="grey-text" style="margin-top: 20px;">{{text}}</div>
+      <div class="sortable" group_id="{{_id}}">
       {{#sortable items=bookElements options=bookElementsOptions}}
         <div class="element {{type}}" >
-          <div class="bookelement" id={{_id}}><i class="material-icons grey-text handle book-elment-item">drag_handle</i><i class="material-icons book-elment-item">{{icon type}}</i><span class="truncate book-elment-item">{{text}}</span></div>
+          <div class="bookelement" id={{_id}}><i class="material-icons grey-text handle book-element-item">drag_handle</i><i class="material-icons book-element-item">{{icon type}}</i><span class="truncate book-element-item">{{text}}</span></div>
           <div id="details_{{_id}}" class="bookelementdetails inactive grey lighten-2">{{> bookElementDetails}}</div>
         </div>
       {{/sortable}}
       </div>
+      {{/each}}
     </div>
   </div>
 </template>

@@ -30,8 +30,15 @@ span.book-element-item, span.book-element-group-item {
 }
 
 .bookelement > i, .element > i, .element-group > i, .bookelement-group > i {
+  display: inline-block;
   vertical-align: middle;
   margin: 0px 10px 0px 3px;
+}
+
+.sortable {
+  width: 100%;
+  min-width: 100%;
+  min-height: 32px;
 }
 
 .sortable-ghost {

@@ -4,6 +4,7 @@ alanning:roles@1.2.15
 aldeed:tabular@1.6.1
 allow-deny@1.0.5
 arillo:flow-router-helpers@0.5.2
+autopublish@1.0.7
 autoupdate@1.2.11
 babel-compiler@6.8.5
 babel-runtime@0.1.9_1
