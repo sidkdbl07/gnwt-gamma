@@ -35,6 +35,10 @@ if (Meteor.isClient) {
         console.log("This is a handle");
         return;
       }
+      if($(event.target).hasClass('rule')) {
+        console.log("This is a rule");
+        return;
+      }
       var bookelement = $(event.target).parent('.bookelement')[0];
       $('.bookelement').removeClass('selected');
       $(bookelement).addClass('selected');
@@ -159,6 +163,7 @@ if (Meteor.isClient) {
         onAdd: function(event) {
           delete event.data._id;
           delete event.data.name;
+          delete event.data.group_id;
           if(!event.data.type) {
             $.publish('toast', ["There was a problem copying the element.", "Error", "error", 0]);
             return;
@@ -167,6 +172,7 @@ if (Meteor.isClient) {
           event.data.book_id = FlowRouter.getParam("bookId");
           var item = event.item;
           var group_id = $(item).closest('.sortable').attr('group_id');
+          console.log("Setting group to "+group_id);
           event.data.group_id = group_id;
           if(event.data.type == 'choice') {
             event.data.choices = [{name: 'Choice', order: 0, default: false}]
@@ -178,6 +184,13 @@ if (Meteor.isClient) {
       return ElementGroups.find({book_id: this._id}, {sort: {order: 1}}).fetch();
     },
     icon: function(type) {
+      //groups
+      if(type == 'arrow') return "arrow_forward";
+      if(type == 'group') return "filter_none";
+      if(type == 'line') return "remove";
+      if(type == 'point') return "place";
+      if(type == 'poly') return "check_box_outline_blank";
+      // elements
       if(type == 'choice') return "check_circle";
       if(type == 'date') return "event_note";
       if(type == 'numeric') return "looks_one";
@@ -187,8 +200,37 @@ if (Meteor.isClient) {
       if(type == 'yesno') return "done";
     }
   });
-
 }
+
+Template.bookRules.helpers({
+  bookElements: function() {
+    var group_id = $(this)[0]._id;
+    //console.log(group_id);
+    return BookElements.find({group_id: group_id}, {sort: {order:1}});
+  },
+  elementGroups: function() {
+    return ElementGroups.find({book_id: this._id}, {sort: {order: 1}}).fetch();
+  },
+  icon: function(type) {
+    //groups
+    if(type == 'arrow') return "arrow_forward";
+    if(type == 'group') return "filter_none";
+    if(type == 'line') return "remove";
+    if(type == 'point') return "place";
+    if(type == 'poly') return "check_box_outline_blank";
+    // elements
+    if(type == 'choice') return "check_circle";
+    if(type == 'date') return "event_note";
+    if(type == 'numeric') return "looks_one";
+    if(type == 'photo') return "photo_camera";
+    if(type == 'text') return "title";
+    if(type == 'textcomment') return "subject";
+    if(type == 'yesno') return "done";
+  },
+  isRules: function() {
+    return false;
+  }
+});
 
 
 Template.elementGroups.helpers({
@@ -196,7 +238,7 @@ Template.elementGroups.helpers({
     return ElementGroups.find({book_id: this._id}, {sort: {order:1}});
   },
   elementGroupTypes: function() {
-    return [{name: "General", type: "group", order: 0},
+    return [{name: "Elements Only", type: "group", order: 0},
             {name: "Point", type: "point", order: 1},
             {name: "Line", type: "line", order: 2},
             {name: "Arrow", type: "arrow", order: 3},
@@ -249,11 +291,5 @@ Template.elementGroups.helpers({
     if(type == 'line') return "remove";
     if(type == 'point') return "place";
     if(type == 'poly') return "check_box_outline_blank";
-  }
-});
-
-Template.elementGroups.events({
-  "click #foo": function(event, template){
-
   }
 });

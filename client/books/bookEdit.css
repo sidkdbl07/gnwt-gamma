@@ -1,4 +1,4 @@
-.bookelement, .bookelement-group {
+.bookelement, .bookelement-group, .rule {
   white-space: nowrap;
 }
 
@@ -22,18 +22,41 @@ span.book-element-item, span.book-element-group-item {
 }
 
 .element, .element-group {
-  border: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
   /*height: 35px;*/
   line-height: 35px;
   margin: 1px;
   cursor: pointer;
 }
 
-.bookelement > i, .element > i, .element-group > i, .bookelement-group > i {
+.bookelement > i, .element > i, .element-group > i, .bookelement-group > i, .rule > i, .rule-group > i {
   display: inline-block;
   vertical-align: middle;
   margin: 0px 10px 0px 3px;
 }
+
+.rule {
+  border-bottom: 1px solid #dcdcdc;
+  line-height: 45px;
+  margin: 1px;
+  cursor: pointer;
+}
+
+.rule > .rule-item, .rule > i, .rule-group > .rule-group-item {
+  display: inline-block;
+  vertical-align: middle;
+  height: 45px;
+  line-height: 45px;
+}
+
+i.rule-item {
+  margin-left: 30px;
+}
+
+span.rule-item, span.rule-group-item {
+  width: 75%;
+}
+
 
 .sortable {
   width: 100%;

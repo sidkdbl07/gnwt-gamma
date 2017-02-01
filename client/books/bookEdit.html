@@ -10,14 +10,14 @@
   {{#if isSubReady 'book'}}
     {{#with getBook}}
     <div style="position: absolute; top: 78px; right: 10%;">
-      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>ELEMENTS</a>
+      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>RULES</a>
       <ul id="view_type" class="dropdown-content">
         <li><a id="btn_book_details" href="#" class="green-text">BOOK DETAILS</a></li>
         <li><a id="btn_book_elements" href="#" class="green-text">ELEMENTS</a></li>
         <li><a id="btn_book_rules" href="#" class="green-text">RULES</a></li>
       </ul>
     </div>
-    <div class="row book-view" id="book_elements">
+    <div class="row book-view" id="book_elements" style="display: none;">
       <div class="col s12">
         {{> bookElements}}
       </div>
@@ -45,9 +45,11 @@
         </div>
       </div>
     </div>
-    <div class="row book-view" id="book_rules" style="display: none;">
-      <div class="col s5">
-        Rules
+    <div class="book-view" id="book_rules">
+      <div class="row" style="margin-top: 20px;">
+        <div class="col s12">
+          {{> bookRules}}
+        </div>
       </div>
     </div>
     {{/with}}
@@ -74,7 +76,7 @@
     </div>
     <div class="col s10">
       {{#each elementGroups}}
-      <div class="grey-text" style="margin-top: 20px;">{{text}}</div>
+      <div class="bookelement-group grey-text" style="margin-top: 20px;"><i class="material-icons">{{icon type}}</i>{{text}}</div>
       <div class="sortable" group_id="{{_id}}">
       {{#sortable items=bookElements options=bookElementsOptions}}
         <div class="element {{type}}" >
@@ -82,6 +84,37 @@
           <div id="details_{{_id}}" class="bookelementdetails inactive grey lighten-2">{{> bookElementDetails}}</div>
         </div>
       {{/sortable}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="bookRules">
+  <div class="row">
+    <div class="col s2">
+      {{#if isRules}}
+
+      {{else}}
+        <div style="border: 1px dashed #dcdcdc; padding: 4px; width: 100%;" class="grey-text">There are no rules currently setup</div>
+      {{/if}}
+      <a class="btn waves-effect light-green" style="margin-top: 10px;">Add Rule</a>
+    </div>
+    <div class="col s10">
+      {{#each elementGroups}}
+      <div class="grey-text rule-group" style="margin-top: 20px;"><i class="material-icons rule-group-item">{{icon type}}</i>{{text}}</div>
+      <div group_id="{{_id}}">
+        {{#each bookElements}}
+        <div class="{{type}}" >
+          <div class="rule" id={{_id}}>
+            <i class="material-icons rule-item">{{icon type}}</i><span class="truncate rule-item">{{text}}</span>
+            <div class="truncate rule-item" style="width: calc(25% - 64px); text-align: right;">
+              <a class="btn-floating waves-effect blue"><i class="material-icons">code</i>Condition</a>
+              <a class="btn-floating waves-effect light-green"><i class="material-icons">gps_fixed</i>Target</a>
+            </div>
+          </div>
+        </div>
+        {{/each}}
       </div>
       {{/each}}
     </div>
