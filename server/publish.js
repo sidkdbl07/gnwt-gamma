@@ -9,6 +9,10 @@ Meteor.publish('singleBookElementGroups', function (bookId) {
   var eg = ElementGroups.find({ book_id: bookId });
   return eg;
 });
+Meteor.publish('singleBookRules', function (bookId) {
+  var r = BookRules.find({ book_id: bookId });
+  return r;
+});
 Meteor.publish('singleBuilding', function (buildingId) {
   return Buildings.find({ _id: buildingId });
 });

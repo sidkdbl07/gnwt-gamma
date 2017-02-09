@@ -94,29 +94,58 @@
   <div class="row">
     <div class="col s2">
       {{#if isRules}}
-
+        {{#each rules}}
+        <div class="rule-group row" rule-id="{{_id}}">
+          <div class="col s12 light-green {{ruleBackground _id}} white-text">Condition: {{#if ruleHasConditions}}Set{{else}}Not set{{/if}}</div>
+          <div class="col s12 blue {{ruleBackground _id}} white-text">Target: {{#if ruleHasTargets}}Set{{else}}Not set{{/if}}</div>
+        </div>
+        {{/each}}
       {{else}}
         <div style="border: 1px dashed #dcdcdc; padding: 4px; width: 100%;" class="grey-text">There are no rules currently setup</div>
       {{/if}}
-      <a class="btn waves-effect light-green" style="margin-top: 10px;">Add Rule</a>
+      <a class="btn waves-effect light-green" style="margin-top: 10px;" id="btn_bookrule_add">Add Rule</a>
     </div>
     <div class="col s10">
-      {{#each elementGroups}}
-      <div class="grey-text rule-group" style="margin-top: 20px;"><i class="material-icons rule-group-item">{{icon type}}</i>{{text}}</div>
-      <div group_id="{{_id}}">
-        {{#each bookElements}}
-        <div class="{{type}}" >
-          <div class="rule" id={{_id}}>
-            <i class="material-icons rule-item">{{icon type}}</i><span class="truncate rule-item">{{text}}</span>
-            <div class="truncate rule-item" style="width: calc(25% - 64px); text-align: right;">
-              <a class="btn-floating waves-effect blue"><i class="material-icons">code</i>Condition</a>
-              <a class="btn-floating waves-effect light-green"><i class="material-icons">gps_fixed</i>Target</a>
-            </div>
+      {{#if ruleSelected}}
+        <div class="col s12" style="position: relative; height: 50px;">
+          <div style="position: absolute; top: 0px; left: 0px;">You have selected a rule, now select the condition and target questions</div>
+          <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; top: 0px; right: 0px;">
+            <a class='btn-floating white'><i class="material-icons" style="color: #8bc34a !important;">more_horiz</i></a>
+            <ul style="position: absolute; top: 0px;">
+              <li><a href="#" class="bookrule_delete btn-floating red"><i class="material-icons">delete</i></a></li>
+            </ul>
           </div>
         </div>
+        {{#each elementGroups}}
+        <div class="grey-text rule-group" style="margin-top: 20px;">
+          <i class="material-icons rule-group-item">{{icon type}}</i><span class="truncate rule-group-item">{{text}}</span>
+          <div class="truncate rule-group-item" style="width: calc(25% - 41px); text-align: right;">
+            {{#if showGroupTarget _id}}
+            <a class="btn-floating waves-effect blue turn-on-bookrulegroup-target" group-id="{{_id}}"><i class="material-icons">gps_fixed</i></a>
+            {{/if}}
+          </div>
+        </div>
+        <div group_id="{{_id}}">
+          {{#each bookElements}}
+          <div class="{{type}}" >
+            <div class="rule" id={{_id}}>
+              <i class="material-icons rule-item">{{icon type}}</i><span class="truncate rule-item">{{text}}</span>
+              <div class="truncate rule-item" style="width: calc(25% - 64px); text-align: right;">
+                {{#if showCondition _id}}
+                <a class="btn-floating waves-effect light-green turn-on-bookrule-condition" element-id={{_id}} element-type="{{type}}"><i class="material-icons">code</i></a>
+                {{/if}}
+                {{#if showTarget _id}}
+                <a class="btn-floating waves-effect blue turn-on-bookrule-target" element-id="{{_id}}"><i class="material-icons">gps_fixed</i></a>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+        </div>
         {{/each}}
-      </div>
-      {{/each}}
+      {{else}}
+        Currently, there is no rule selected. Click on of the rules to the left, or click 'Add Rule'.
+      {{/if}}
     </div>
   </div>
 </template>

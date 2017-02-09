@@ -228,9 +228,102 @@ Template.bookRules.helpers({
     if(type == 'yesno') return "done";
   },
   isRules: function() {
+    return (BookRules.find({book_id: this._id}).count() > 0);
+  },
+  rules: function() {
+    return BookRules.find({book_id: this._id},{sort: {order: 1}}).fetch();
+  },
+  ruleBackground: function(rule_id) {
+    if(Session.get('selected_rule') == rule_id) {
+      return '';
+    }
+      return 'lighten-3'
+  },
+  ruleHasConditions: function() {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    if(rule && rule.conditions && rule.conditions.length > 0)
+      return true;
+    return false;
+  },
+  ruleHasTargets: function() {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    if(rule && rule.targets && rule.targets.length > 0)
+      return true;
+    return false;
+  },
+  ruleSelected: function() {
+    if(Session.get('selected_rule') != "") {
+      var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+      if(!rule || rule.book_id != FlowRouter.getParam('bookId')) {
+        Session.set('selected_rule', "");
+        return false;
+      }
+      return true;
+    }
+    return false;
+  },
+  showCondition: function(element_id) {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    if(rule && rule.targets) {
+      rule.targets.forEach(function(e) {
+        if(e.element_id = element_id)
+          return false;
+      });
+      rule.conditions.forEach(function(e) {
+        if(e.element_id = element_id)
+          return false;
+      });
+      return true;
+    }
+  },
+  showGroupTarget: function(group_id) {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    if(rule && rule.targets) {
+      rule.targets.forEach(function(e) {
+        if(e.group_id = group_id)
+          return false;
+      });
+      return true;
+    }
+  },
+  showTarget: function(element_id) {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    if(rule && rule.targets) {
+      rule.targets.forEach(function(e) {
+        if(e.element_id = element_id)
+          return false;
+      });
+      rule.conditions.forEach(function(e) {
+        if(e.element_id = element_id)
+          return false;
+      });
+      return true;
+    }
+  },
+  thisRuleSelected: function(rule_id) {
+    if(Session.get('selected_rule') == rule_id)
+      return true;
     return false;
   }
 });
+
+Template.bookRules.events({
+  "click #btn_bookrule_add": function(event, template){
+     event.preventDefault();
+     Meteor.call('addBookRule', {book_id: this._id, order: BookRules.find({book_id: this._id}).count(), conditions: [], targets: []});
+     $.publish('toast', ["Rule added", "Success", "success", 0]);
+  },
+  "click .bookrule_delete": function(event, template) {
+    Meteor.call('removeBookRule', Session.get('selected_rule'));
+    $.publish('toast', ["Rule deleted", "Success", "success", 0]);
+  },
+  "click .rule-group": function(event, template) {
+    event.preventDefault();
+    var rule_group_id = $(event.target).closest('div.rule-group').attr('rule-id');
+    Session.set('selected_rule', rule_group_id);
+  }
+});
+
 
 
 Template.elementGroups.helpers({
