@@ -42,7 +42,7 @@ span.book-element-item, span.book-element-group-item {
   cursor: pointer;
 }
 
-.rule > .rule-item, .rule > i, .rule-group > .rule-group-item {
+.rule > .rule-item, .rule > i, .rule-group-row > .rule-group-item {
   display: inline-block;
   vertical-align: middle;
   height: 45px;
@@ -54,9 +54,12 @@ i.rule-item {
 }
 
 span.rule-item, span.rule-group-item {
-  width: 75%;
+  width: 65%;
 }
 
+.row .col.rule-group-row {
+  padding: 6px;
+}
 
 .sortable {
   width: 100%;

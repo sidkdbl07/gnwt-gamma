@@ -53,7 +53,7 @@ if (Meteor.isClient) {
     'click span.book-element-group-item': function(event) {
       event.preventDefault();
       if($(event.target).hasClass('handle')) {
-        console.log("This is a handle");
+        //console.log("This is a handle");
         return;
       }
       var bookelementgroup = $(event.target).parent('.bookelement-group')[0];
@@ -81,6 +81,7 @@ if (Meteor.isClient) {
       }
       Meteor.call('editBook', {_id: bookID, name: name});
       $.publish('toast', ["Book saved", "Success", "success", 0]);
+      $("#save_book").hide();
     },
     'click #btn_book_details': function(event) {
       event.preventDefault();
@@ -99,6 +100,12 @@ if (Meteor.isClient) {
       $("#book_view").html("<i class='material-icons right'>arrow_drop_down</i>RULES");
       $(".book-view").hide();
       $("#book_rules").show();
+    },
+    "keyup #edit_book_name": function(event) {
+      var saved_book_title = Books.findOne({_id: FlowRouter.getParam('bookId')}).name;
+      if(saved_book_title != $("#edit_book_name").val()) {
+        $("#save_book").show();
+      }
     }
   });
 
@@ -202,11 +209,33 @@ if (Meteor.isClient) {
   });
 }
 
+Template.bookRules.onRendered(function() {
+  this.autorun(function(){
+    Tracker.afterFlush(function(){
+      $("#condition_dropdown").dropdown({
+        constrain_width: true,
+        hover: false, // Activate on hover
+        gutter: 10, // Spacing from edge
+        belowOrigin: true, // Displays dropdown below the button
+        alignment: 'left' // Displays dropdown with edge aligned to the left of button
+      });
+    });
+  });
+});
+
 Template.bookRules.helpers({
   bookElements: function() {
     var group_id = $(this)[0]._id;
     //console.log(group_id);
     return BookElements.find({group_id: group_id}, {sort: {order:1}});
+  },
+  conditionText: function() {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    if(rule && "conditions" in rule) {
+      return rule.conditions[0].condition.toUpperCase();
+    } else {
+      return "Error";
+    }
   },
   elementGroups: function() {
     return ElementGroups.find({book_id: this._id}, {sort: {order: 1}}).fetch();
@@ -227,8 +256,46 @@ Template.bookRules.helpers({
     if(type == 'textcomment') return "subject";
     if(type == 'yesno') return "done";
   },
+  isCondition: function(element_id) {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+
+    var sentinel = false;
+    if(rule && "conditions" in rule) {
+      rule.conditions.forEach(function(e) {
+        if(e.element_id == element_id) {
+          sentinel = true;
+        }
+      });
+    }
+    return sentinel;
+  },
+  isGroupTarget: function(element_id) {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    var sentinel = false;
+    if(rule && "targets" in rule) {
+      rule.targets.forEach(function(e) {
+        if(e.group_id == element_id) {
+          sentinel = true;
+        }
+      });
+    }
+    return sentinel;
+  },
   isRules: function() {
     return (BookRules.find({book_id: this._id}).count() > 0);
+  },
+  isTarget: function(element_id) {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+
+    var sentinel = false;
+    if(rule && "targets" in rule) {
+      rule.targets.forEach(function(e) {
+        if(e.element_id == element_id) {
+          sentinel = true;
+        }
+      });
+    }
+    return sentinel;
   },
   rules: function() {
     return BookRules.find({book_id: this._id},{sort: {order: 1}}).fetch();
@@ -239,17 +306,20 @@ Template.bookRules.helpers({
     }
       return 'lighten-3'
   },
-  ruleHasConditions: function() {
-    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+  ruleHasConditions: function(id) {
+    var rule = BookRules.findOne({_id: id});
     if(rule && rule.conditions && rule.conditions.length > 0)
       return true;
     return false;
   },
-  ruleHasTargets: function() {
-    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+  ruleHasTargets: function(id) {
+    var rule = BookRules.findOne({_id: id});
     if(rule && rule.targets && rule.targets.length > 0)
       return true;
     return false;
+  },
+  ruleNumber: function() {
+    return this.order + 1;
   },
   ruleSelected: function() {
     if(Session.get('selected_rule') != "") {
@@ -262,42 +332,59 @@ Template.bookRules.helpers({
     }
     return false;
   },
-  showCondition: function(element_id) {
+  showConditionButton: function(element_id) {
+    var element = BookElements.findOne({_id: element_id});
     var rule = BookRules.findOne({_id: Session.get('selected_rule')});
-    if(rule && rule.targets) {
+
+    var sentinel = true;
+    // Only allow yes/no questions to be conditions
+    if(element.type != 'yesno') {
+      sentinel = false;
+    }
+    // if you are part of the targets, then you can't be a condition
+
+    if(rule && "targets" in rule) {
       rule.targets.forEach(function(e) {
-        if(e.element_id = element_id)
-          return false;
+        if(e.element_id == element_id)
+          sentinel = false;
       });
+    }
+    if(rule && "conditions" in rule) {
       rule.conditions.forEach(function(e) {
-        if(e.element_id = element_id)
-          return false;
+        if(e.element_id == element_id) {
+          sentinel = false;
+        }
       });
-      return true;
+    }
+    return sentinel;
+  },
+  showGroupTargetButton: function(group_id) {
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    var sentinel = true;
+    if(rule && "targets" in rule) {
+      rule.targets.forEach(function(e) {
+        if(e.group_id == group_id)
+          sentinel = false;
+      });
+      return sentinel;
     }
   },
-  showGroupTarget: function(group_id) {
+  showTargetButton: function(element_id) {
     var rule = BookRules.findOne({_id: Session.get('selected_rule')});
-    if(rule && rule.targets) {
+    var sentinel = true;
+    if(rule && "targets" in rule) {
       rule.targets.forEach(function(e) {
-        if(e.group_id = group_id)
-          return false;
+        if(e.element_id == element_id)
+          sentinel = false;
       });
-      return true;
     }
-  },
-  showTarget: function(element_id) {
-    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
-    if(rule && rule.targets) {
-      rule.targets.forEach(function(e) {
-        if(e.element_id = element_id)
-          return false;
-      });
+    // if you are a condition, then you can't be a rule
+    if(rule && "conditions" in rule) {
       rule.conditions.forEach(function(e) {
-        if(e.element_id = element_id)
-          return false;
+        if(e.element_id == element_id)
+          sentinel = false;
       });
-      return true;
+      return sentinel;
     }
   },
   thisRuleSelected: function(rule_id) {
@@ -317,11 +404,59 @@ Template.bookRules.events({
     Meteor.call('removeBookRule', Session.get('selected_rule'));
     $.publish('toast', ["Rule deleted", "Success", "success", 0]);
   },
+  "click .change-condition": function(event, template) {
+    event.preventDefault();
+    var element_id = $(event.target).attr('element-id');
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    rule.conditions = [{element_id: element_id, condition: $(event.target).attr('value')}];
+    Meteor.call('editBookRule', rule);
+  },
+  "click .remove-condition": function(event, template) {
+    event.preventDefault();
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    var element_id = $(event.target).closest('a').attr('element-id');
+    rule.conditions = [];
+    Meteor.call('editBookRule', rule);
+  },
+  "click .remove-group-target": function(event, template) {
+    event.preventDefault();
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    rule.targets = [];
+    Meteor.call('editBookRule', rule);
+  },
+  "click .remove-target": function(event, template) {
+    event.preventDefault();
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    var element_id = $(event.target).closest('a').attr('element-id');
+    rule.targets = [];
+    Meteor.call('editBookRule', rule);
+  },
   "click .rule-group": function(event, template) {
     event.preventDefault();
     var rule_group_id = $(event.target).closest('div.rule-group').attr('rule-id');
     Session.set('selected_rule', rule_group_id);
-  }
+  },
+  "click .turn-on-bookrule-condition": function(event, template) {
+    event.preventDefault();
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    var element_id = $(event.target).closest('a').attr('element-id');
+    rule.conditions = [{element_id: element_id, condition: 'is answered'}];
+    Meteor.call('editBookRule', rule);
+  },
+  "click .turn-on-bookrule-target": function(event, template) {
+    event.preventDefault();
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    var element_id = $(event.target).closest('a').attr('element-id');
+    rule.targets = [{element_id: element_id, target: 'disabled'}];
+    Meteor.call('editBookRule', rule);
+  },
+  "click .turn-on-bookrulegroup-target": function(event, template) {
+    event.preventDefault();
+    var rule = BookRules.findOne({_id: Session.get('selected_rule')});
+    var group_id = $(event.target).closest('a').attr('group-id');
+    rule.targets = [{group_id: group_id, target: 'disabled'}];
+    Meteor.call('editBookRule', rule);
+  },
 });
 
 

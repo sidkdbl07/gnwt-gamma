@@ -10,7 +10,7 @@
   {{#if isSubReady 'book'}}
     {{#with getBook}}
     <div style="position: absolute; top: 78px; right: 10%;">
-      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text"  data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>RULES</a>
+      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="book_view" class="dropdown-button btn-flat waves-effect waves-light green-text" data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>BOOK DETAILS</a>
       <ul id="view_type" class="dropdown-content">
         <li><a id="btn_book_details" href="#" class="green-text">BOOK DETAILS</a></li>
         <li><a id="btn_book_elements" href="#" class="green-text">ELEMENTS</a></li>
@@ -22,10 +22,10 @@
         {{> bookElements}}
       </div>
     </div>
-    <div class="book-view" id="book_details" style="display: none;">
+    <div class="book-view" id="book_details">
       {{#if isInRole 'admin' 'default_group'}}
-      <div style="position: absolute; top: 78px; right: 2%;">
-        <a href="#" id="save_book" style="margin-left: 20px;" class="btn waves-effect waves-light light-green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save book">Save</a>
+      <div style="position: absolute; top: 170px; left: 44%;">
+        <a href="#" id="save_book" style="margin-left: 20px; display: none;" class="btn-floating waves-effect waves-light light-green" ><i class="material-icons">check</i></a>
       </div>
       {{/if}}
       <div class="row">
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="book-view" id="book_rules">
+    <div class="book-view" id="book_rules" style="display: none;">
       <div class="row" style="margin-top: 20px;">
         <div class="col s12">
           {{> bookRules}}
@@ -96,8 +96,9 @@
       {{#if isRules}}
         {{#each rules}}
         <div class="rule-group row" rule-id="{{_id}}">
-          <div class="col s12 light-green {{ruleBackground _id}} white-text">Condition: {{#if ruleHasConditions}}Set{{else}}Not set{{/if}}</div>
-          <div class="col s12 blue {{ruleBackground _id}} white-text">Target: {{#if ruleHasTargets}}Set{{else}}Not set{{/if}}</div>
+          <div class="s12">Rule {{ruleNumber}}</div>
+          <div class="col s12 purple {{ruleBackground _id}} white-text rule-group-row">Condition: {{#if ruleHasConditions _id}}Set{{else}}Not set{{/if}}</div>
+          <div class="col s12 teal {{ruleBackground _id}} white-text rule-group-row">Target: {{#if ruleHasTargets _id}}Set{{else}}Not set{{/if}}</div>
         </div>
         {{/each}}
       {{else}}
@@ -108,7 +109,7 @@
     <div class="col s10">
       {{#if ruleSelected}}
         <div class="col s12" style="position: relative; height: 50px;">
-          <div style="position: absolute; top: 0px; left: 0px;">You have selected a rule, now select the condition and target questions</div>
+          <div style="position: absolute; top: 0px; left: 0px;">The rule you selected on the left is bold, now select the condition and target elements.</div>
           <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; top: 0px; right: 0px;">
             <a class='btn-floating white'><i class="material-icons" style="color: #8bc34a !important;">more_horiz</i></a>
             <ul style="position: absolute; top: 0px;">
@@ -117,25 +118,47 @@
           </div>
         </div>
         {{#each elementGroups}}
-        <div class="grey-text rule-group" style="margin-top: 20px;">
+        <div class="rule-group-row {{#if isGroupTarget _id}}teal white-text{{else}}grey-text{{/if}}" style="margin-top: 20px;">
           <i class="material-icons rule-group-item">{{icon type}}</i><span class="truncate rule-group-item">{{text}}</span>
-          <div class="truncate rule-group-item" style="width: calc(25% - 41px); text-align: right;">
-            {{#if showGroupTarget _id}}
-            <a class="btn-floating waves-effect blue turn-on-bookrulegroup-target" group-id="{{_id}}"><i class="material-icons">gps_fixed</i></a>
+          <div class="truncate rule-group-item" style="width: calc(35% - 28px); text-align: right;">
+            {{#if showGroupTargetButton _id}}
+            <a class="btn-floating waves-effect teal turn-on-bookrulegroup-target" group-id="{{_id}}"><i class="material-icons">gps_fixed</i></a>
+            {{else}}
+            <div style="display: inline-block; margin: 0px 30px;">DISABLED</div>
+            <div style="display: inline-block; margin-right: 5px;"><a class="btn-floating waves-effect teal darken-2 remove-group-target" element-id="{{_id}}"><i class="material-icons">delete</i></a></div>
             {{/if}}
           </div>
         </div>
         <div group_id="{{_id}}">
           {{#each bookElements}}
           <div class="{{type}}" >
-            <div class="rule" id={{_id}}>
+            <div class="rule {{#if isCondition _id}}purple white-text{{/if}} {{#if isTarget _id}}teal white-text{{/if}}" id={{_id}}>
               <i class="material-icons rule-item">{{icon type}}</i><span class="truncate rule-item">{{text}}</span>
-              <div class="truncate rule-item" style="width: calc(25% - 64px); text-align: right;">
-                {{#if showCondition _id}}
-                <a class="btn-floating waves-effect light-green turn-on-bookrule-condition" element-id={{_id}} element-type="{{type}}"><i class="material-icons">code</i></a>
+              <div class="truncate rule-item" style="width: calc(35% - 66px); text-align: right;">
+                {{#if showConditionButton _id}}
+                <a class="btn-floating waves-effect purple turn-on-bookrule-condition" element-id={{_id}} element-type="{{type}}"><i class="material-icons">code</i></a>
                 {{/if}}
-                {{#if showTarget _id}}
-                <a class="btn-floating waves-effect blue turn-on-bookrule-target" element-id="{{_id}}"><i class="material-icons">gps_fixed</i></a>
+                {{#if showTargetButton _id}}
+                <a class="btn-floating waves-effect teal turn-on-bookrule-target" element-id="{{_id}}"><i class="material-icons">gps_fixed</i></a>
+                {{/if}}
+                {{#if isCondition _id}}
+                <div style="white-space: nowrap; ">
+                  <div style="display: inline-block;">
+                    <a href="#" id="condition_dropdown" class="dropdown-button btn-flat waves-effect white-text" data-activates="condition_type"><i class="material-icons right">arrow_drop_down</i>{{conditionText}}</a>
+                    <ul id="condition_type" class="dropdown-content">
+                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="is answered">IS ANSWERED</a></li>
+                      <li><a id="btn_condition_yes" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="is yes">IS YES</a></li>
+                      <li><a id="btn_condition_no" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="is no">IS NO</a></li>
+                    </ul>
+                  </div>
+                  <div style="display: inline-block; margin-right: 5px;"><a class="btn-floating waves-effect purple darken-2 remove-condition" element-id="{{_id}}"><i class="material-icons">delete</i></a></div>
+                </div>
+                {{/if}}
+                {{#if isTarget _id}}
+                <div style="white-space: nowrap; ">
+                  <div style="display: inline-block; margin: 0px 30px;">DISABLED</div>
+                  <div style="display: inline-block; margin-right: 5px;"><a class="btn-floating waves-effect teal darken-2 remove-target" element-id="{{_id}}"><i class="material-icons">delete</i></a></div>
+                </div>
                 {{/if}}
               </div>
             </div>
