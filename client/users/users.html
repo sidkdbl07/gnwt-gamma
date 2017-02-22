@@ -17,8 +17,24 @@
 </template>
 
 <template name="userTableButtons">
+  <div style="position: relative;">
+    <div style="position: absolute; right: 10px; top: -17px;">
+      <a href="{{pathFor 'user/edit/:id' id=item._id}}" class="user-edit btn-floating light-green"><i class="material-icons">create</i></a>
+    </div>
+  {{#if isInRole 'admin' 'default_group'}}
+    <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right: 74px; top: -17px;">
+      <a class='btn-floating white'><i class="material-icons" style="color: #8bc34a !important;">more_horiz</i></a>
+      <ul style="position: absolute; top: -17px;">
+        <li><a href="#deleteUserModal" class="user-delete modal-trigger btn-floating red"><i class="material-icons">delete</i></a></li>
+        <li></li>
+      </ul>
+    </div>
+  {{/if}}
+  </div>
+  <!--
   <a href="{{pathFor '/user/edit/:id' id=item._id}}" class="building-edit btn-floating light-green"><i class="material-icons">create</i></a>
   <a href="#deleteUserModal" class="user-delete modal-triger btn-floating white"><i class="material-icons" style="color: #f44336 !important;">delete</i></a>
+-->
 </template>
 
 <template name="deleteUserModal">
