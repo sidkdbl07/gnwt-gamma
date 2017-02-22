@@ -76,7 +76,7 @@
     </div>
     <div class="col s10">
       {{#each elementGroups}}
-      <div class="bookelement-group grey-text" style="margin-top: 20px;"><i class="material-icons">{{icon type}}</i>{{text}}</div>
+      <div class="bookelement-group blue-text" style="margin-top: 20px;"><i class="material-icons">{{icon type}}</i>{{text}}</div>
       <div class="sortable" group_id="{{_id}}">
       {{#sortable items=bookElements options=bookElementsOptions}}
         <div class="element {{type}}" >
@@ -118,7 +118,7 @@
           </div>
         </div>
         {{#each elementGroups}}
-        <div class="rule-group-row {{#if isGroupTarget _id}}teal white-text{{else}}grey-text{{/if}}" style="margin-top: 20px;">
+        <div class="rule-group-row {{#if isGroupTarget _id}}teal white-text{{else}}blue-text{{/if}}" style="margin-top: 20px;">
           <i class="material-icons rule-group-item">{{icon type}}</i><span class="truncate rule-group-item">{{text}}</span>
           <div class="truncate rule-group-item" style="width: calc(35% - 28px); text-align: right;">
             {{#if showGroupTargetButton _id}}

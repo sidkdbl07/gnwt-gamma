@@ -31,7 +31,7 @@ if (Meteor.isClient) {
     networkStatusColor: function() {
       if(Session.get('status') == 'online') return 'light-green';
       if(Session.get('status') == 'connecting') return 'amber';
-      if(Session.get('status') == 'offline') return 'red';
+      if(Session.get('status') == 'offline') return 'text-accent-2 red';
       return 'white';
     },
     routeName: function () {
