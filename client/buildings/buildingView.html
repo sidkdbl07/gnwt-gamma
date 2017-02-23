@@ -9,6 +9,13 @@
   </nav>
   {{#if isSubReady 'building'}}
     {{#with getBuilding}}
+    <div style="position: absolute; top: 78px; right: 10%;">
+      <span class="grey-text text-darken-3">Current view:</span> <a href="#" id="building_view" class="dropdown-button btn-flat waves-effect waves-light green-text" data-activates="view_type"><i class="material-icons right">arrow_drop_down</i>ASSESSMENTS</a>
+      <ul id="view_type" class="dropdown-content">
+        <li><a href="{{pathFor '/building/:id' id=_id}}" class="green-text">ASSESSMENTS</a></li>
+        <li><a href="{{pathFor '/building/scorecard/:id' id=_id}}" class="green-text">SCORECARD</a></li>
+      </ul>
+    </div>
     <div class="content">
       <div class="row">
         <div class="col s4">
@@ -18,7 +25,7 @@
             <li class="collection-item avatar {{#if isSelectedAssessmentType _id}}light-green{{/if}}" type="{{name}}">
               <i class="material-icons circle {{#if isSelectedAssessmentType _id}}light-green-text white{{else}}grey{{/if}}">assignment</i>
               <span class="title">{{name}}</span>
-              <span class="badge {{#if isSelectedAssessmentType _id}}blue-text blue lighten-4{{else}}blue white-text{{/if}}">{{assessmentCount _id}}</span>
+              <span class="badge blue white-text">{{assessmentCount _id}}</span>
               {{#if isSelectedAssessmentType _id}}
               <a href="#" class="secondary-content white-text clear-assessment-type" style="margin-top: 25px; margin-right: 5px;"><i class="material-icons small">clear</i></a>
               {{else}}
