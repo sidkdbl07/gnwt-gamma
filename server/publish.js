@@ -21,7 +21,7 @@ Meteor.publish('singleBuilding', function (buildingId) {
 /////////////////
 // Multiple
 Meteor.publish('assessmentsForBuilding', function(buildingId) {
-  return Assessments.find({building_id: buildingId}, {fields: {_id: 1, book_id: 1, created_date: 1, completed_by: 1}, sort: {type: 1, created_date: 1, completed_by: 1}});
+  return Assessments.find({building_id: buildingId}, {sort: {book_name: 1, created_date: 1, completed_by: 1}});
 });
 Meteor.publish('bookNames', function() {
   return Books.find({}, {fields: {_id: 1, name: 1}, sort: {name: 1}});

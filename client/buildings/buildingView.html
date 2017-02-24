@@ -19,7 +19,7 @@
     <div class="content">
       <div class="row">
         <div class="col s4">
-          <h5>Assessments</h5>
+          <h5>Assessment Types</h5>
           <ul class="collection">
             {{#each getBooks}}
             <li class="collection-item avatar {{#if isSelectedAssessmentType _id}}light-green{{/if}}" type="{{name}}">
@@ -27,7 +27,7 @@
               <span class="title">{{name}}</span>
               <span class="badge blue white-text">{{assessmentCount _id}}</span>
               {{#if isSelectedAssessmentType _id}}
-              <a href="#" class="secondary-content white-text clear-assessment-type" style="margin-top: 25px; margin-right: 5px;"><i class="material-icons small">clear</i></a>
+              <a href="#" class="secondary-content white-text clear-assessment-type" style="margin-top: 25px; margin-right: 5px;"><i class="material-icons small">arrow_forward</i></a>
               {{else}}
               <a href="#" class="secondary-content light-green-text assessment-type-selector" style="margin-top: 25px; margin-right: 5px;"><i class="material-icons small">search</i></a>
               {{/if}}
@@ -36,10 +36,70 @@
             {{/each}}
           </ul>
         </div>
+        <div class="col s7 offset-s1" id="assessments-list" style="display: none;">
+          <div style="position: absolute; top: 78px; right: 45%;">
+            <a href="#" id="add_assessment" class="btn waves-effect waves-light light-green" style="margin-right: 30px;">New</a>
+          </div>
+          <h5>{{selectedAssessmentName}} Assessments</h5>
+          {{#if hasAssessments}}
+          <ul class="collection">
+            {{#each getAssessments}}
+            <li class="collection-item">
+              <div style="position: relative; height: 50px;">
+                <div style="white-space: nowrap;">{{#if isNew}}<span style="display: inline-block;"><b class="green-text">New - </b></span>{{/if}}Assessment<br/><span style="width: 70%;" class="truncate">{{assessmentText}}</span></div>
+                <div style="position: absolute; right: 10px; top: -2px;">
+                  <a href="#" class="btn-floating light-green"><i class="material-icons">send</i></a>
+                </div>
+                <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right: 74px; top: -2px;">
+                  <a class='btn-floating white'><i class="material-icons" style="color: #8bc34a !important;">more_horiz</i></a>
+                  <ul style="position: absolute; top: -2px;">
+                    <li><a href="#deleteAssessmentModal" class="delete-assessment modal-trigger btn-floating red" assessment-id="{{_id}}"><i class="material-icons">delete</i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            {{/each}}
+          </ul>
+          {{> deleteAssessmentModal}}
+          {{else}}
+          <p>No assessments of this type could be found for this building.</p>
+          <p>To begin a new assessment, click <i>NEW</i>  on the toolbar.</p>
+          {{/if}}
+        </div>
+        <div class="col s7 offset-s1" id="building-details">
+          <h5>Building Details</h5>
+          <p>
+            {{name}}<br/>
+            <i class="grey-text">{{buildingAddress}}</i>
+          </p>
+          <p><span class="badge blue white-text">blue box</span>
+            On the left is a list of assessment types. The blue box indicates how many assessments<br/>
+            of that type have been performed.
+          </p>
+          <p><span style="float: right; margin-right: 5px;" class="light-green-text"><i class="material-icons small">search</i></span>
+            Click on the magnifying glass to see past assessments,
+            or to begin a new<br/> assessment of that type.
+          </p>
+        </div>
       </div>
     </div>
     {{/with}}
   {{else}}
     {{> loading}}
   {{/if}}
+</template>
+
+<template name="deleteAssessmentModal">
+  <input type="hidden" id="delete_assessment_id" value="" />
+  <div id="deleteAssessmentModal" class="modal">
+    <div class="modal-content">
+      <h4>Warning</h4>
+      <p>Deleting an assessment cannot be undone!</p>
+      <p>All records associated with this assessment will be removed.</p>
+    </div>
+    <div class="modal-footer">
+      <a id="go-ahead-and-delete-assessment" href="#!" class="btn modal-action modal-close waves-effect red">Delete Assessment</a>
+      <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
 </template>
