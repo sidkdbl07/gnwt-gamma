@@ -147,12 +147,14 @@
                     <a href="#" id="condition_dropdown" class="dropdown-button btn-flat waves-effect white-text" data-activates="condition_type"><i class="material-icons right">arrow_drop_down</i>{{conditionText}}</a>
                     <ul id="condition_type" class="dropdown-content">
                       {{#if isYesNo _id}}
-                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="answered">IS ANSWERED</a></li>
-                      <li><a id="btn_condition_yes" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="yes">IS YES</a></li>
-                      <li><a id="btn_condition_no" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="no">IS NO</a></li>
+                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="answered">is answered</a></li>
+                      <li><a id="btn_condition_yes" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="yes">is yes</a></li>
+                      <li><a id="btn_condition_no" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="no">is no</a></li>
                       {{else}}
-                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="answered">IS ANSWERED</a></li>
-                      <li><a id="btn_condition_yes" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="yes">Boo</a></li>
+                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="answered">is Answered</a></li>
+                      {{#each choices}}
+                      <li><a href="#" class="purple accent-1 purple-text change-condition" element-id="{{parentElement._id}}" value="{{name}}">is {{name}}</a></li>
+                      {{/each}}
                       {{/if}}
                     </ul>
                   </div>

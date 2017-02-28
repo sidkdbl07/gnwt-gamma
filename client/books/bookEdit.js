@@ -18,15 +18,15 @@ if (Meteor.isClient) {
           belowOrigin: true, // Displays dropdown below the button
           alignment: 'left' // Displays dropdown with edge aligned to the left of button
         });
-        if(Meteor.isCordova){
-          $(".content").css('height', '672px');
-          $(".content").css('max-height', '672px');
-        }else{
-          $(".content").css('height', '672px');
-          $(".content").css('max-height', '672px'); //778
-        }
       });
     });
+    if(Meteor.isCordova){
+      $(".content").css('height', '672px');
+      $(".content").css('max-height', '672px');
+    }else{
+      $(".content").css('height', '672px');
+      $(".content").css('max-height', '672px'); //778
+    }
   });
 
   Template.bookEdit.helpers({
@@ -221,10 +221,17 @@ Template.bookRules.helpers({
     //console.log(group_id);
     return BookElements.find({group_id: group_id}, {sort: {order:1}});
   },
+  choices: function() {
+    var element = BookElements.findOne({_id: this._id}, {sort: {order: 1}});
+    return element.choices.sort(function(a,b) {
+      if(a.order > b.order) return 1;
+      if(a.order < b.order) return -1;
+    });
+  },
   conditionText: function() {
     var rule = BookRules.findOne({_id: Session.get('selected_rule')});
     if(rule && "conditions" in rule) {
-      return rule.conditions[0].condition.toUpperCase();
+      return "IS "+rule.conditions[0].condition.toUpperCase();
     } else {
       return "Error";
     }
@@ -295,6 +302,9 @@ Template.bookRules.helpers({
       return true;
     }
     return false;
+  },
+  parentElement: function() {
+    return BookElements.findOne({_id: Template.parentData(1)._id});
   },
   rules: function() {
     return BookRules.find({book_id: this._id},{sort: {order: 1}}).fetch();
@@ -439,7 +449,7 @@ Template.bookRules.events({
     event.preventDefault();
     var rule = BookRules.findOne({_id: Session.get('selected_rule')});
     var element_id = $(event.target).closest('a').attr('element-id');
-    rule.conditions = [{element_id: element_id, condition: 'is answered'}];
+    rule.conditions = [{element_id: element_id, condition: 'answered'}];
     Meteor.call('editBookRule', rule);
   },
   "click .turn-on-bookrule-target": function(event, template) {
