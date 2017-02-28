@@ -17,12 +17,12 @@
         <li><a id="btn_book_rules" href="#" class="green-text">RULES</a></li>
       </ul>
     </div>
-    <div class="row book-view" id="book_elements" style="display: none;">
+    <div class="row book-view content" id="book_elements" style="display: none;">
       <div class="col s12">
         {{> bookElements}}
       </div>
     </div>
-    <div class="book-view" id="book_details">
+    <div class="book-view content" id="book_details">
       {{#if isInRole 'admin' 'default_group'}}
       <div style="position: absolute; top: 170px; left: 44%;">
         <a href="#" id="save_book" style="margin-left: 20px; display: none;" class="btn-floating waves-effect waves-light light-green" ><i class="material-icons">check</i></a>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="book-view" id="book_rules" style="display: none;">
+    <div class="book-view content" id="book_rules" style="display: none;">
       <div class="row" style="margin-top: 20px;">
         <div class="col s12">
           {{> bookRules}}
@@ -146,9 +146,14 @@
                   <div style="display: inline-block;">
                     <a href="#" id="condition_dropdown" class="dropdown-button btn-flat waves-effect white-text" data-activates="condition_type"><i class="material-icons right">arrow_drop_down</i>{{conditionText}}</a>
                     <ul id="condition_type" class="dropdown-content">
-                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="is answered">IS ANSWERED</a></li>
-                      <li><a id="btn_condition_yes" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="is yes">IS YES</a></li>
-                      <li><a id="btn_condition_no" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="is no">IS NO</a></li>
+                      {{#if isYesNo _id}}
+                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="answered">IS ANSWERED</a></li>
+                      <li><a id="btn_condition_yes" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="yes">IS YES</a></li>
+                      <li><a id="btn_condition_no" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="no">IS NO</a></li>
+                      {{else}}
+                      <li><a id="btn_condition_answered" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="answered">IS ANSWERED</a></li>
+                      <li><a id="btn_condition_yes" href="#" class="purple accent-1 purple-text change-condition" element-id="{{_id}}" value="yes">Boo</a></li>
+                      {{/if}}
                     </ul>
                   </div>
                   <div style="display: inline-block; margin-right: 5px;"><a class="btn-floating waves-effect purple darken-2 remove-condition" element-id="{{_id}}"><i class="material-icons">delete</i></a></div>

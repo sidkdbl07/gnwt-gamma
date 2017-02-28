@@ -31,7 +31,7 @@ if (Meteor.isClient) {
 
   Template.buildingView.helpers({
     assessmentCount: function(book_id) {
-      console.log("Looking for book "+book_id+", building "+FlowRouter.getParam('buildingId'));
+      //console.log("Looking for book "+book_id+", building "+FlowRouter.getParam('buildingId'));
       return Assessments.find({book_id: book_id, building_id: FlowRouter.getParam('buildingId')}).count();
     },
     assessmentText: function() {
@@ -99,11 +99,7 @@ if (Meteor.isClient) {
       var book = Books.findOne({_id: book_id});
       var new_assessment = {building_id: FlowRouter.getParam('buildingId'), book_id: book_id, book_name: book.name, created_date: Date.now(), created_by: Meteor.user().profile.fullname, created_by_id: Meteor.user()._id};
       var new_id = Meteor.call('addAssessment', new_assessment);
-      if(new_id) {
-        $.publish('toast', [book.name+" assessment created", "Success", "success", 0]);
-        return;
-      }
-      $.publish('toast', ["There was a problem adding an assessment", "Error", "error", 0]);
+      $.publish('toast', [book.name+" assessment created", "Success", "success", 0]);
     },
     'click .assessment-type-selector': function(event, template) {
       event.preventDefault();

@@ -5,11 +5,6 @@ if (Meteor.isClient) {
 
   Template.regions.onRendered(function() {
     $(".tooltipped").tooltip({delay: 50});
-    //$(window).bind('resize', function () {
-    //  var b = $("#DataTables_Table_0").dataTable();
-    //  $(".dataTables_scrollBody").height($(document).height() - 270);
-    //  b.fnDraw();
-    //});
   });
 
   Template.regions.helpers({

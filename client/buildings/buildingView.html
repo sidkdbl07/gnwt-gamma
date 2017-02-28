@@ -46,7 +46,7 @@
             {{#each getAssessments}}
             <li class="collection-item">
               <div style="position: relative; height: 50px;">
-                <div style="white-space: nowrap;">{{#if isNew}}<span style="display: inline-block;"><b class="green-text">New - </b></span>{{/if}}Assessment<br/><span style="width: 70%;" class="truncate">{{assessmentText}}</span></div>
+                <div style="white-space: nowrap;">{{#if isNew}}<span style="display: inline-block;"><b class="green-text">New&nbsp;</b></span>{{/if}}Assessment<br/><span style="width: 70%;" class="truncate">{{assessmentText}}</span></div>
                 <div style="position: absolute; right: 10px; top: -2px;">
                   <a href="#" class="btn-floating light-green"><i class="material-icons">send</i></a>
                 </div>
@@ -72,14 +72,17 @@
             {{name}}<br/>
             <i class="grey-text">{{buildingAddress}}</i>
           </p>
-          <p><span class="badge blue white-text">blue box</span>
-            On the left is a list of assessment types. The blue box indicates how many assessments<br/>
-            of that type have been performed.
-          </p>
-          <p><span style="float: right; margin-right: 5px;" class="light-green-text"><i class="material-icons small">search</i></span>
-            Click on the magnifying glass to see past assessments,
-            or to begin a new<br/> assessment of that type.
-          </p>
+          <div class="card-panel grey lighten-3">
+            <span style="font-weight: bold;">Assessments</span>
+            <p><span class="badge blue white-text">blue box</span>
+              On the left is a list of assessment types. The blue box indicates how many assessments<br/>
+              of that type have been performed.
+            </p>
+            <p><span style="float: right; margin-right: 5px;" class="light-green-text"><i class="material-icons small">search</i></span>
+              Click on the magnifying glass to see past assessments,
+              or to begin a new<br/> assessment of that type.
+            </p>
+          </div>
         </div>
       </div>
     </div>

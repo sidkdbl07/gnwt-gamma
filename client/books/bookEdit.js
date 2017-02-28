@@ -18,6 +18,13 @@ if (Meteor.isClient) {
           belowOrigin: true, // Displays dropdown below the button
           alignment: 'left' // Displays dropdown with edge aligned to the left of button
         });
+        if(Meteor.isCordova){
+          $(".content").css('height', '672px');
+          $(".content").css('max-height', '672px');
+        }else{
+          $(".content").css('height', '672px');
+          $(".content").css('max-height', '672px'); //778
+        }
       });
     });
   });
@@ -110,21 +117,7 @@ if (Meteor.isClient) {
   });
 
   Template.bookElements.onRendered(function() {
-    // Sortable.create(bookElementTypes, {
-    //   group: 'bookElementTypes',
-    //   animation: 100,
-    //   sort: true,
-    //   onRemove: function(e) {
-    //     e.target.appendChild(e.item.cloneNode(true));
-    //   }
-    // });
-    // Sortable.create(bookElements, {
-    //   group: {
-    //     name: 'bookElements',
-    //     put: ['bookElementTypes']
-    //   },
-    //   animation: 100
-    // });
+
   });
 
   Template.bookElements.helpers({
@@ -163,7 +156,7 @@ if (Meteor.isClient) {
         group: {
           name: 'bookElements',
           pull: true,
-          put: ['bookElements','bookElementTypes']
+          put: ['bookElementTypes']
         },
         handle: ".handle",
         sort: true,
@@ -179,7 +172,6 @@ if (Meteor.isClient) {
           event.data.book_id = FlowRouter.getParam("bookId");
           var item = event.item;
           var group_id = $(item).closest('.sortable').attr('group_id');
-          console.log("Setting group to "+group_id);
           event.data.group_id = group_id;
           if(event.data.type == 'choice') {
             event.data.choices = [{name: 'Choice', order: 0, default: false}]
@@ -297,6 +289,13 @@ Template.bookRules.helpers({
     }
     return sentinel;
   },
+  isYesNo: function(element_id) {
+    var element = BookElements.findOne({_id: element_id});
+    if(element.type == 'yesno') {
+      return true;
+    }
+    return false;
+  },
   rules: function() {
     return BookRules.find({book_id: this._id},{sort: {order: 1}}).fetch();
   },
@@ -338,7 +337,7 @@ Template.bookRules.helpers({
 
     var sentinel = true;
     // Only allow yes/no questions to be conditions
-    if(element.type != 'yesno') {
+    if(element.type != 'yesno' && element.type != 'choice') {
       sentinel = false;
     }
     // if you are part of the targets, then you can't be a condition
