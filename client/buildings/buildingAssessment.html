@@ -1,0 +1,19 @@
+<template name="buildingAssessment">
+  {{#if isSubReady 'building'}}
+  <nav>
+    <div class="nav-wrapper grey lighten-3" style="padding-left: 10px">
+      <div class="col s12">
+        <a href="{{pathFor '/buildings'}}" class="breadcrumb grey-text text-darken-3">Buildings</a>
+        <a href="{{pathFor '/building/:buildingId' buildingId=getBuilding._id}}" class="breadcrumb grey-text text-darken-3">{{getBuilding.name}}</a>
+        <span class="breadcrumb grey-text text-darken-3">{{getAssessment.book_name}} Assessment</span>
+      </div>
+    </div>
+  </nav>
+  <div class="white-text" style="position: absolute; top: 35px; left: 100px;">{{assessmentText}}</div>
+  <div class="content">
+    {{getElementGroup.text}}
+  </div>
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>

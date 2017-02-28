@@ -1,3 +1,15 @@
+Meteor.publish('singleAssessment', function (assessmentId) {
+  return Assessments.find({ _id: assessmentId });
+});
+Meteor.publish('singleAssessmentElementGroups', function (assessmentId) {
+  return AssessmentElementGroups.find({ assessment_id: assessmentId });
+});
+Meteor.publish('singleAssessmentElements', function (assessmentId) {
+  return AssessmentElements.find({ assessment_id: assessmentId });
+});
+Meteor.publish('singleAssessmentRules', function (assessmentId) {
+  return AssessmentRules.find({ assessment_id: assessmentId });
+});
 Meteor.publish('singleBook', function (bookId) {
   return Books.find({ _id: bookId });
 });
