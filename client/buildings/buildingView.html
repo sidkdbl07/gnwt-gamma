@@ -22,16 +22,16 @@
           <h5>Assessment Types</h5>
           <ul class="collection">
             {{#each getBooks}}
-            <li class="collection-item avatar {{#if isSelectedAssessmentType _id}}light-green{{/if}}" type="{{name}}">
+            <li class="collection-item avatar {{#if isSelectedAssessmentType _id}}blue{{/if}}" type="{{name}}">
               <i class="material-icons circle {{#if isSelectedAssessmentType _id}}light-green-text white{{else}}grey{{/if}}">assignment</i>
-              <span class="title">{{name}}</span>
-              <span class="badge blue white-text">{{assessmentCount _id}}</span>
+              <span class="title {{#if isSelectedAssessmentType _id}}white-text{{/if}}">{{name}}</span>
+              <span class="badge grey lighten-3 grey-text">{{assessmentCount _id}}</span>
               {{#if isSelectedAssessmentType _id}}
               <a href="#" class="secondary-content white-text clear-assessment-type" style="margin-top: 25px; margin-right: 5px;"><i class="material-icons small">arrow_forward</i></a>
               {{else}}
               <a href="#" class="secondary-content light-green-text assessment-type-selector" style="margin-top: 25px; margin-right: 5px;"><i class="material-icons small">search</i></a>
               {{/if}}
-              <p style="width: 75%;" class="{{#if isSelectedAssessmentType _id}}white-text{{else}}grey-text{{/if}}">{{lastAssessment _id}}</p>
+              <p style="width: 75%;" class="{{#if isSelectedAssessmentType _id}}blue-text text-lighten-3{{else}}grey-text{{/if}}">{{lastAssessment _id}}</p>
             </li>
             {{/each}}
           </ul>
@@ -74,8 +74,8 @@
           </p>
           <div class="card-panel grey lighten-3">
             <span style="font-weight: bold;">Assessments</span>
-            <p><span class="badge blue white-text">blue box</span>
-              On the left is a list of assessment types. The blue box indicates how many assessments<br/>
+            <p><span class="badge grey lighten-2 grey-text">grey box</span>
+              On the left is a list of assessment types. The grey box indicates how many assessments<br/>
               of that type have been performed.
             </p>
             <p><span style="float: right; margin-right: 5px;" class="light-green-text"><i class="material-icons small">search</i></span>

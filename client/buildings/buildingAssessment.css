@@ -1,0 +1,14 @@
+.btn-assessment-nav {
+  margin: 0px 10px;
+}
+
+.content {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.page-text {
+  margin: 15px 0px;
+  padding-left: 35px;
+}

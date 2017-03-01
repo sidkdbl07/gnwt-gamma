@@ -10,8 +10,19 @@
     </div>
   </nav>
   <div class="white-text" style="position: absolute; top: 35px; left: 100px;">{{assessmentText}}</div>
+  <div style="position: absolute; top: 66px; right: 20px;">
+    <a href="{{#if previousGroupExists}}{{previousGroup}}{{else}}#{{/if}}" class="btn-floating btn-large waves-effect light-green btn-assessment-nav {{#if previousGroupExists}}{{else}}disabled{{/if}}"><i class="material-icons">keyboard_arrow_left</i></a>
+    <a href="{{#if nextGroupExists}}{{nextGroup}}{{else}}#{{/if}}" class="btn-floating btn-large waves-effect light-green btn-assessment-nav {{#if nextGroupExists}}{{else}}disabled{{/if}}"><i class="material-icons">keyboard_arrow_right</i></a>
+    <br/>
+    <div class="page-text">{{pageText}}</div>
+  </div>
   <div class="content">
-    {{getElementGroup.text}}
+    <div class="row">
+      <div class="col s12 blue-text text-lighten-2" style="margin-left: 10px;"><h5>{{getElementGroup.text}}</h5></div>
+    </div>
+    <div class="row">
+      <div class="col s12" style="margin-left: 10px;">This is where the questions go</div>
+    </div>
   </div>
   {{else}}
     {{> loading}}
